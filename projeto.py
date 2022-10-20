@@ -1,9 +1,16 @@
+from numpy import array
+
+
 class Usuario:
-    def __init__(self, nome, email, senha, senhaRepetida):
+    def __init__(self, nome, email, senha, senhaRepetida, roteiro: array):
         self.nome = nome
         self.email = email
         self.senha = senha
         self.senhaRepetida = senhaRepetida
+        self.roteiro = roteiro
+
+    def addPasseio(self, passeio):
+        self.roteiro.append(passeio)
 
 def start():
     while True:
@@ -31,7 +38,7 @@ def start():
             restaurantes()
             return
 
-usuario = Usuario(None, None, None, None)
+usuario = Usuario(None, None, None, None, None)
 login = False
 
 def perfil():
@@ -54,15 +61,27 @@ def perfil():
                     email = input("Digite seu Email")
                     senha = input("Digite seu senha")
                     senhaRepetida = input("Digite sua senha novamente")
-                    usuario = Usuario(nome, email, senha, senhaRepetida)
+                    roteiro = None
+                    usuario = Usuario(nome, email, senha, senhaRepetida, roteiro)
                     login = True
+                    perfil()
         if(login == True):
             print("VOCE ESTA LOGADO")
             print(usuario.nome)
-            return
+            print(usuario.email)
+            print(usuario.senha)
+            print(usuario.senhaRepetida)
+            print("Roteiro: ")
+            print(usuario.roteiro)
+            if(int(input("Digite 0 para Voltar.")) == 0):
+                start()
+            
+
 
 
 def praias():
+    global usuario
+    global login
     while True:
         print("Qual praia voce quer ver? [ 0 PARA VOLTAR ]")
         print("1 - Praia de boa Viagem")
@@ -75,9 +94,18 @@ def praias():
             print('Praia localizada em boa viagem recife')
             print("***imagem***")
             print("como chegar? - Digite 1 (obs: Sai do app)")
+            print("Adicionar roteiro - Digite 2")
             options = int(input())
             if(options == 0):
                 praias()
+            elif(options == 2):
+                if(not login):
+                    perfil()
+                else:
+                    if(usuario.roteiro == None):
+                        usuario.roteiro = "--> Praia de boa Viagem "
+                    else:
+                        usuario.roteiro += "--> Praia de boa Viagem "
             else:
                 print("maps.google.com")
                 break
@@ -97,9 +125,18 @@ def passeios():
             print('Passeio de buggy na lagoa da anta! voce pode trazer sua criança que ela vai ficar muito feliz!')
             print("***imagem***")
             print("Contato - Digite 1 (obs: Sai do app)")
+            print("Adicionar roteiro - Digite 2")
             options = int(input())
             if(options == 0):
                 passeios()
+            elif(options == 2):
+                if(not login):
+                    perfil()
+                else:
+                    if(usuario.roteiro == None):
+                        usuario.roteiro = "--> Passeio de buggy "
+                    else:
+                        usuario.roteiro += "--> Passeio de buggy "
             else:
                 print("(81) 992673319 ")
                 break
@@ -120,6 +157,7 @@ def restaurantes():
             print("***imagem***")
             print("Como chegar - Digite 1 (obs: Sai do app)")
             print("Ligar para fazer reserva - Digite 2 (obs: Sai do app)")
+            print("Adicionar roteiro - Digite 3")
             options = int(input())
             if(options == 0):
                 restaurantes()
@@ -129,6 +167,15 @@ def restaurantes():
             elif(options == 2):
                 print("(81) 992673319")
                 break
+            elif(options == 3):
+                if(not login):
+                    perfil()
+                    
+                else:
+                    if(usuario.roteiro == None):
+                        usuario.roteiro = "--> Coco Bambu "
+                    else:
+                        usuario.roteiro += "--> Coco Bambu "
         elif opcao == 0:
             start()
 
