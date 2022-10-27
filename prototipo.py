@@ -1,6 +1,3 @@
-from calendar import c
-
-
 class Usuario:
     def __init__(self, nome, email, senha, senhaRepetida):
         self.nome = nome
@@ -193,5 +190,3 @@ def restaurantes():
             start()
 
 
-
-start()
