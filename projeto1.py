@@ -40,7 +40,7 @@ class Atividade:
 # praia.append(atividade2)
 # for praia in praia:
 #     nomePraia = []
-    
+
 
 def main():
     goTo = int(input())
@@ -86,9 +86,9 @@ def filtraAtividade(listaAtividades, tags):
 #         else:
 #             print("Cadastre-se")
 
-# def verPraias():
-# def verPasseios():
-# def verRestaurantes():
+# def escolherPraias():
+# def escolherPasseios():
+# def escolherRestaurantes():
 #     #obs tem o filtro tambem. ##filtraAtividade(listaAtividades, tags):##
 #     for praia in praias:
 #         print(f"{praia.nome} --- digite [{index}]")
@@ -100,9 +100,28 @@ def filtraAtividade(listaAtividades, tags):
 #     print(praiaTal)
 #     #obs: so pode fazer isso quyando logado == True
 #         print("voce quer adicionar ela ao seu roteiro?")
+#         print("PAra qual roteiro voce quer adicionar")
+#               adicionarRoteiro(numRoteiro, atividade)                   
 #         print("voce quer cutir essa praia?")
 #         print("voce quer fazer um comentario?")
 
-def filtrar(praias[]):
-    print("quer filtrar por isso?")
-    print("quer filtrar por aquilo?")
+# def filtrar(praias[]):
+#     print("quer filtrar por isso?")
+#     print("quer filtrar por aquilo?")
+#     if tem a tag do filtro -> praias[].tags
+#         verPraias(praiasFiltradas[])
+
+
+# verPerfil() #obs criar tambem um perfil de admin.
+# escolherPraias() #printar todas praias, todos passeios e todos restaurantes, engloba: escolherRestaurantes()
+# escolherPasseios() #printar todos passeios
+# escolherRestaurantes() #printar todos restaurantes
+# verPraia() #printar todas informações da pria,
+# verPasseio() #printar todas informações da passeio 
+# verRestaurante() #printar todas informaçoes do restaurante
+# adicionarAoRoteiro() #adiciona a atividade selecionada para um roteiro.
+# curtirAtividade() #adiciona a atividade curtida a uma lista de atividades curtidas pelo usuario
+# fazerComentario() #recebe um usuario que da uma nota 0-5 estrelas (tem que alterar a média da nota do passeio) e adicionar o comentario à uma lista de comentarios da atividade.
+# filtrar() #recebe as tags que o usuario quer filtrar (obs: um valor para cada filtro selecionado.), compara com as tags da atividade e retorna uma lista de atividades que possuem as tags selecionadas.
+# fazerPesquisa() #recebe um input do usuario e faz a pesquisa dele.
+
