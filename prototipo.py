@@ -1,16 +1,21 @@
-from numpy import array
+from calendar import c
 
 
 class Usuario:
-    def __init__(self, nome, email, senha, senhaRepetida, roteiro: array):
+    def __init__(self, nome, email, senha, senhaRepetida):
         self.nome = nome
         self.email = email
         self.senha = senha
         self.senhaRepetida = senhaRepetida
-        self.roteiro = roteiro
 
-    def addPasseio(self, passeio):
-        self.roteiro.append(passeio)
+
+restaurante_cocobambu = {
+    "nome": "Coco Bambu",
+    "descricao": "teste",
+    "imagem": "***imagem***",
+    "comentarios": []
+}
+
 
 def start():
     while True:
@@ -21,62 +26,70 @@ def start():
         print("4 - Ver passeios")
         print("5 - Ver restaurantes")
         opcao = int(input())
-        
-        if(opcao == 1):
+
+        if opcao == 1:
             perfil()
             return
-        if( opcao == 2):
-            #roteiroPersonalizado()
+        if opcao == 2:
+            # roteiroPersonalizado()
             return
         if opcao == 3:
             praias()
             return
-        if(opcao == 4):
+        if opcao == 4:
             passeios()
             return
-        if(opcao == 5):
+        if opcao == 5:
             restaurantes()
             return
 
-usuario = Usuario(None, None, None, None, None)
+
+usuario = Usuario(None, None, None, None)
 login = False
+roteiro = []
+
 
 def perfil():
     global login
     global usuario
     while True:
-        if(login == False):
+        if login == False:
             print("Voce ja possui uma conta?\n[0] - Voltar\n[1] - Sim\n[2] - Não")
             conta = int(input())
-            if(conta == 1):
+            if conta == 1:
                 email = input("Digite seu email")
                 senha = input("Digite sua senha")
-                if(usuario.email == email and usuario.senha == senha):
+                if usuario.email == email and usuario.senha == senha:
                     login = True
                     return
-            if(conta == 2):
-                if(usuario):
-                    print("CRIAR CONTA")
+            if conta == 2:
+                if usuario:
+                    print("---- CRIAR CONTA ----")
                     nome = input("Digite seu nome")
                     email = input("Digite seu Email")
                     senha = input("Digite seu senha")
                     senhaRepetida = input("Digite sua senha novamente")
-                    roteiro = None
-                    usuario = Usuario(nome, email, senha, senhaRepetida, roteiro)
+                    usuario = Usuario(nome, email, senha, senhaRepetida)
                     login = True
                     perfil()
-        if(login == True):
-            print("VOCE ESTA LOGADO")
+            if conta == 0:
+                start()
+        if login == True:
+            print("----PERFIL----")
             print(usuario.nome)
             print(usuario.email)
             print(usuario.senha)
             print(usuario.senhaRepetida)
             print("Roteiro: ")
-            print(usuario.roteiro)
-            if(int(input("Digite 0 para Voltar.")) == 0):
+            print(roteiro)
+            print("Digite [0] para voltar.")
+            print("Digite [1] para deslogar.")
+            option = int(input("Digite 0 para Voltar."))
+            if option == 0:
                 start()
+            elif option == 1:
+                login = False
             
-
 
 
 def praias():
@@ -91,28 +104,27 @@ def praias():
         opcao = int(input())
         if opcao == 1:
             print("PRAIA DE BOA VIAGEM [ 0 PARA VOLTAR ]")
-            print('Praia localizada em boa viagem recife')
+            print("Praia localizada em boa viagem recife")
             print("***imagem***")
             print("como chegar? - Digite 1 (obs: Sai do app)")
             print("Adicionar roteiro - Digite 2")
             options = int(input())
-            if(options == 0):
+            if options == 0:
                 praias()
-            elif(options == 2):
-                if(not login):
+            elif options == 2:
+                if not login:
                     perfil()
                 else:
-                    if(usuario.roteiro == None):
-                        usuario.roteiro = "--> Praia de boa Viagem "
-                    else:
-                        usuario.roteiro += "--> Praia de boa Viagem "
+                    roteiro.append("Praia de boa viagem")
             else:
                 print("maps.google.com")
                 break
         elif opcao == 0:
             start()
 
+
 def passeios():
+
     while True:
         print("Qual passeio voce quer fazer? [ 0 PARA VOLTAR ]")
         print("1 - Passeio de buggy")
@@ -122,26 +134,26 @@ def passeios():
         opcao = int(input())
         if opcao == 1:
             print("PASSEIO DE BUGGY [ 0 PARA VOLTAR ]")
-            print('Passeio de buggy na lagoa da anta! voce pode trazer sua criança que ela vai ficar muito feliz!')
+            print(
+                "Passeio de buggy na lagoa da anta! voce pode trazer sua criança que ela vai ficar muito feliz!"
+            )
             print("***imagem***")
             print("Contato - Digite 1 (obs: Sai do app)")
             print("Adicionar roteiro - Digite 2")
             options = int(input())
-            if(options == 0):
+            if options == 0:
                 passeios()
-            elif(options == 2):
-                if(not login):
+            elif options == 2:
+                if not login:
                     perfil()
                 else:
-                    if(usuario.roteiro == None):
-                        usuario.roteiro = "--> Passeio de buggy "
-                    else:
-                        usuario.roteiro += "--> Passeio de buggy "
+                    roteiro.append("Passeio de buggy")
             else:
                 print("(81) 992673319 ")
                 break
         elif opcao == 0:
             start()
+
 
 def restaurantes():
     while True:
@@ -152,31 +164,34 @@ def restaurantes():
         print("4 - Cinema")
         opcao = int(input())
         if opcao == 1:
-            print("COCO BAMBU [ 0 PARA VOLTAR ]")
-            print('Restaurante feito pra sua familia! Casais tambem!')
-            print("***imagem***")
+            print(restaurante_cocobambu["nome"])
+            print(restaurante_cocobambu["descricao"])
+            print(restaurante_cocobambu["imagem"])
             print("Como chegar - Digite 1 (obs: Sai do app)")
             print("Ligar para fazer reserva - Digite 2 (obs: Sai do app)")
             print("Adicionar roteiro - Digite 3")
+            print("Fazer comentário - Digite 4")
+            print(restaurante_cocobambu["comentarios"])
             options = int(input())
-            if(options == 0):
+            if options == 0:
                 restaurantes()
-            elif(options == 1):
+            elif options == 1:
                 print("Rua tal e tal")
                 break
-            elif(options == 2):
+            elif options == 2:
                 print("(81) 992673319")
                 break
-            elif(options == 3):
-                if(not login):
+            elif options == 3:
+                if not login:
                     perfil()
-                    
                 else:
-                    if(usuario.roteiro == None):
-                        usuario.roteiro = "--> Coco Bambu "
-                    else:
-                        usuario.roteiro += "--> Coco Bambu "
+                    roteiro.append("Coco Bambu")
+            elif options == 4:
+                comentario = input("Faça um comentário.")
+                restaurante_cocobambu["comentarios"].append(comentario)       
         elif opcao == 0:
             start()
+
+
 
 start()
