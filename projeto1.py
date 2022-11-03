@@ -1,11 +1,14 @@
+from verRestaurantes import *
+
 class Usuario:
-    def __init__(self, nome, email, senha, repeteSenha, curtidas, roteiros):
+    def __init__(self, nome, email, senha, repeteSenha, curtidas, roteiros, logado):
         self.nome = nome
         self.email = email
         self.senha = senha
         self.repeteSenha = repeteSenha
         self.curtidas = curtidas
         self.roteiros = roteiros  
+        self.logado = logado
 
     def fazComentario(self, atividade, texto, nota, imagem):
         pass
@@ -28,6 +31,12 @@ class Atividade:
         self.servicos = servicos
         self.localizacao = localizacao
         self.comentario = comentario
+
+    def calculaNota(self):
+        estrelas = round(sum(self.nota)/len(self.nota))
+        return "*" * estrelas
+
+
 
 # atividade1 = Atividade("imagemx", "Praia de bv", 5, "descricao praia bv", 10, ["praia", "cerveja", "drinks"], ["barraquinha"], "rua", ["muuto top", "meio paia"])
 # atividade2 = Atividade("imagemx", "Praia de piedade", 5, "descricao praia bv", 10, ["praia", "cerveja", "drinks"], ["barraquinha"], "rua", ["muuto top", "meio paia"])
@@ -57,10 +66,12 @@ passeios = [passeio1, passeio2, passeio3, passeio4, passeio5]
 
 restaurante1 = Atividade( "imagem restaurante1",  "nome restaurante 1", [5, 4, 3], "Descrição restaurante 1", "01:30", ["tag1","tag3","tag6","tag9","tag10"], ["servico1 restaurante1", "servico2 restaurante1"], "Localizacao restaurante 1", ["comentário1 restaurante1","comentário2 restaurante1","comentário3 restaurante1"])
 restaurante2 = Atividade( "imagem restaurante2",  "nome restaurante 2", [5, 4, 3], "Descrição restaurante 2", "02:15", ["tag1","tag3","tag6","tag9","tag10"], ["servico1 restaurante2", "servico2 restaurante2"], "Localizacao restaurante 2", ["comentário1 restaurante2","comentário2 restaurante2","comentário3 restaurante2"])
-restaurante3 = Atividade( "imagem restaurante3",  "nome restaurante 3", [5, 4, 3], "Descrição restaurante 3", "04:00", ["tag1","tag3","tag6","tag9","tag10"], ["servico1 restaurante3", "servico2 restaurante3"], "Localizacao restaurante 3", ["comentário1 restaurante3","comentário2 restaurante3","comentário3 restaurante3"])
+restaurante3 = Atividade( "imagem restaurante3",  "nome restaurante 3", [5, 5, 4], "Descrição restaurante 3", "04:00", ["tag1","tag3","tag6","tag9","tag10"], ["servico1 restaurante3", "servico2 restaurante3"], "Localizacao restaurante 3", ["comentário1 restaurante3","comentário2 restaurante3","comentário3 restaurante3"])
 restaurante4 = Atividade( "imagem restaurante4",  "nome restaurante 4", [5, 4, 3], "Descrição restaurante 4", "02:15", ["tag1","tag3","tag6","tag9","tag10"], ["servico1 restaurante4", "servico2 restaurante4"], "Localizacao restaurante 4", ["comentário1 restaurante4","comentário2 restaurante4","comentário3 restaurante4"])
-restaurante5 = Atividade( "imagem restaurante5",  "nome restaurante 5", [5, 4, 3], "Descrição restaurante 5", "02:30", ["tag1","tag3","tag6","tag9","tag10"], ["servico1 restaurante5", "servico2 restaurante5"], "Localizacao restaurante 5", ["comentário1 restaurante5","comentário2 restaurante5","comentário3 restaurante5"])
+restaurante5 = Atividade( "imagem restaurante5",  "nome restaurante 5", [1, 1, 1], "Descrição restaurante 5", "02:30", ["tag1","tag3","tag6","tag9","tag10"], ["servico1 restaurante5", "servico2 restaurante5"], "Localizacao restaurante 5", ["comentário1 restaurante5","comentário2 restaurante5","comentário3 restaurante5"])
 restaurantes = [restaurante1,restaurante2,restaurante3,restaurante4,restaurante5]
+
+atividades = [restaurante1,restaurante2,restaurante3,restaurante4,restaurante5,passeio1, passeio2, passeio3, passeio4, passeio5,praia1, praia2, praia3, praia4, praia5]
 
 def main():
     goTo = int(input())
@@ -78,8 +89,13 @@ def main():
         #verPasseios()
         pass
     if goTo == 5:
-        #verRestaurantes()
-        pass
+        verRestaurantes(restaurantes)
+        visualizar = int(input())
+        if visualizar == 0:
+            #sai do app
+            pass 
+        else:
+            visualizarRestaurante(restaurantes[visualizar-1], restaurantes)
     if goTo == 6:
         #mehoresRoteiros()
         pass
@@ -144,4 +160,5 @@ def filtraAtividade(listaAtividades, tags):
 # fazerComentario() #recebe um usuario que da uma nota 0-5 estrelas (tem que alterar a média da nota do passeio) e adicionar o comentario à uma lista de comentarios da atividade.
 # filtrar() #recebe as tags que o usuario quer filtrar (obs: um valor para cada filtro selecionado.), compara com as tags da atividade e retorna uma lista de atividades que possuem as tags selecionadas.
 # fazerPesquisa() #recebe um input do usuario e faz a pesquisa dele.
-
+usuario = Usuario("Luis", "luis@luis", "luis123", "luis123", [praia1, praia3], [praia4], False)
+verPerfil(usuario)
