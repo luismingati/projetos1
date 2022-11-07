@@ -38,6 +38,9 @@ class Atividade:
         self.localizacao = localizacao
         self.comentario = comentario
 
+    def calculaNota(self):
+        return (sum(self.nota)/len(self.nota))
+
 # atividade1 = Atividade("imagemx", "Praia de bv", 5, "descricao praia bv", 10, ["praia", "cerveja", "drinks"], ["barraquinha"], "rua", ["muuto top", "meio paia"])
 # atividade2 = Atividade("imagemx", "Praia de piedade", 5, "descricao praia bv", 10, ["praia", "cerveja", "drinks"], ["barraquinha"], "rua", ["muuto top", "meio paia"])
 # atividade3 = Atividade("imagemx", "Praia de pina", 5, "descricao praia bv", 10, ["praia", "cerveja", "drinks"], ["barraquinha"], "rua", ["muuto top", "meio paia"])
@@ -211,40 +214,43 @@ def escolherPasseio():
             filtrar()
     
 def main():
-    while True:
-        print("Escolha a opção desejada: ")
-        print("1 para entrar em seu perfil\n2 para ver roteiros")
-        print("3 para ver praias\n4 para ver passeios")
-        print("5 para ver restaurantes\n6 para ver roteiros curtidos por outros viajantes como você")
-        print("7 para ver atrações populares\n8 para usar a ferramenta de pesquisa")
-        goTo = int(input())
+   
+    print("Escolha a opção desejada: ")
+    print("1 para entrar em seu perfil\n2 para ver roteiros")
+    print("3 para ver praias\n4 para ver passeios")
+    print("5 para ver restaurantes\n6 para ver roteiros curtidos por outros viajantes como você")
+    print("7 para ver atrações populares\n8 para usar a ferramenta de pesquisa")
+    goTo = int(input())
 
-        if goTo == 1:
-            #verPerfil()
-            return
-        if goTo == 2:
-            #verRoteiros()
-            return
-        if goTo == 3:
-            #verPraias()
-            return
-        if goTo == 4:
-            escolherPasseio()
-            return
-        if goTo == 5:
-            #verRestaurantes()
-            return
-        if goTo == 6:
-            #RoteirosOutrosViajantes()
-            return
-        if goTo == 7:
-            #AtracoesPopulares()
-            return
-        if goTo == 8:
-            #fazerPesquisa()
-            return
+    if goTo == 1:
+        #verPerfil()
+        return
+    if goTo == 2:
+        #verRoteiros()
+        return
+    if goTo == 3:
+        #verPraias()
+        return
+    if goTo == 4:
+        while True:
+            verRestaurantes(restaurantes)
+            rest = int(input())
+            visualizarRestaurante(restaurantes[rest-1],restaurantes)
+        
+    if goTo == 5:
+        #verRestaurantes()
+        return
+    if goTo == 6:
+        #RoteirosOutrosViajantes()
+        return
+    if goTo == 7:
+        #AtracoesPopulares()
+        return
+    if goTo == 8:
+        #fazerPesquisa()
+        return
             
-# main()            
+main()            
 
         
         
