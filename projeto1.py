@@ -123,26 +123,7 @@ def filtraAtividade(listaAtividades, tags):
 # escolherRestaurantes() #printar todos restaurantes
 # verPraia() #printar todas informações da praia
 
-roteiros = []
 
-
-def criarRoteiro():
-    quant = len(roteiros) + 1
-    roteiros.append(f"Roteiro {quant}")
-    print(len(roteiros))
-
-def adicionarRoteiro():
-    i = 0
-    quantidadeDeRoteiros = len(roteiros)
-    print("Escolha o roteiro que você quer?")
-    print( "0 - criar roteiro")
-    for i in range(quantidadeDeRoteiros):
-        print(f"{i+1} - Roteiro {i+1}")
-    
-    roteiroSelecionado = int(input())
-    #roteiros[roteiroSelecionado - 1].append(atividade)
-    if roteiroSelecionado == 0:
-        criarRoteiro()
     
 
 def verPasseio():
@@ -184,34 +165,19 @@ def filtrar(filtros):
     for test in teste:
         print(test.nome)
 
-
-def escolherPasseio(): 
-    while True:
-        print("Escolha o passeio que você quer ver: [0 para voltar para as opções]")
-        print("1: Passeio à maragogi")
-        print("2: Passeio às Dunas de Marapé")
-        print("3: Passeio ao Hibiscus Beach Club")
-        print("0 para voltar para a aba inicial")
-        print("4: Filtrar passeios")
-        
-        numero = int(input())
-        
-        if numero == 1:
-            print(passeioMaragogi)
-            atividade = passeioMaragogi
-            verPasseio()
-        if numero == 2:
-            print(passeioMarape)
-            atividade = passeioMarape
-            verPasseio()
-        if numero == 3:
-            print(passeioHibiscus)
-            atividade = passeioHibiscus
-            verPasseio()
-        if numero == 0:
-            main()
-        if numero == 0:
-            filtrar()
+def escolherPasseio(passeios): 
+    print("Escolha o passeio que você quer ver: ")
+    print("[-1] - Filtrar passeios")
+    print("[0] - para voltar para as opções")
+    for i in range(len(passeios)):
+        print(f"[{i+1}] - {passeios[i]}")
+    valorEscolhido = int(input())
+    print(passeios[i].nome)
+    if(valorEscolhido == 0):  
+        main()
+    if valorEscolhido == -1:
+        filtrar()   
+            
     
 def main():
    
@@ -222,6 +188,7 @@ def main():
     print("7 para ver atrações populares\n8 para usar a ferramenta de pesquisa")
     goTo = int(input())
 
+<<<<<<< HEAD
     if goTo == 1:
         #verPerfil()
         return
@@ -249,11 +216,38 @@ def main():
     if goTo == 8:
         #fazerPesquisa()
         return
+=======
+        if goTo == 1:
+            #verPerfil()
+            return
+        if goTo == 2:
+            #verRoteiros()
+            return
+        if goTo == 3:
+            #verPraias()
+            return
+        if goTo == 4:
+            escolherPasseio(passeios)
+            return
+        if goTo == 5:
+            #verRestaurantes()
+            return
+        if goTo == 6:
+            #RoteirosOutrosViajantes()
+            return
+        if goTo == 7:
+            #AtracoesPopulares()
+            return
+        if goTo == 8:
+            #fazerPesquisa()
+            return
+>>>>>>> d28ae612411f029525805786c5aee69459c5144d
             
 main()            
 
-        
-        
+#class Quiz:
+    #def __init__(self,)
+    
         
 # verRestaurante() #printar todas informaçoes do restaurante
 # adicionarAoRoteiro() #adiciona a atividade selecionada para um roteiro.

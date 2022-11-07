@@ -29,8 +29,8 @@ def visualizarRestaurante(visualizar, retorno):
     if acao == 0:
       verRestaurantes(retorno)
     if acao ==1:
-      pass
-      #adicionaROteiro()
+      adicionarRoteiro(visualizar)
+      
     if acao == 2:
       pass
       #fazCOmentario()
