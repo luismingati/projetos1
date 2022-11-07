@@ -81,10 +81,6 @@ def filtraAtividade(listaAtividades, tags):
 #             print("Cadastre-se")
 roteiros = []
 
-def criarRoteiro():
-    quant = len(roteiros) + 1
-    roteiros.append(f"Roteiro" + "{quant}")
-    print(len(roteiros))
 
 # def escolherPraias():
 # def escolherPasseios():
@@ -117,6 +113,11 @@ def criarRoteiro():
 # escolherPasseios() #printar todos passeios
 # escolherRestaurantes() #printar todos restaurantes
 # verPraia() #printar todas informações da praia
+
+def criarRoteiro():
+    quant = len(roteiros) + 1
+    roteiros.append(f"Roteiro {quant}")
+    print(len(roteiros))
 
 def adicionarRoteiro():
     i = 0
