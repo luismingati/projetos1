@@ -79,7 +79,6 @@ def filtraAtividade(listaAtividades, tags):
 #             print("digite seu email e senha")
 #         else:
 #             print("Cadastre-se")
-roteiros = []
 
 
 # def escolherPraias():
@@ -114,6 +113,9 @@ roteiros = []
 # escolherRestaurantes() #printar todos restaurantes
 # verPraia() #printar todas informações da praia
 
+roteiros = []
+roteiros = [[], [], [], []]
+
 def criarRoteiro():
     quant = len(roteiros) + 1
     roteiros.append(f"Roteiro {quant}")
@@ -128,7 +130,7 @@ def adicionarRoteiro():
         print(f"{i+1} - Roteiro {i+1}")
     
     roteiroSelecionado = int(input())
-    roteiros[roteiroSelecionado - 1].append(atividade)
+    #roteiros[roteiroSelecionado - 1].append(atividade)
     if roteiroSelecionado == 0:
         criarRoteiro()
     
@@ -171,7 +173,7 @@ def filtrar(filtros):
     teste = pesquisar(filtrosEscolhidos, passeios)
     for test in teste:
         print(test.nome)
-filtrar(filtros)
+
 
 def escolherPasseio(): 
     while True:
