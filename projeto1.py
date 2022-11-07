@@ -3,7 +3,7 @@ os.system("clear")
 
 
 class Usuario:
-    def _init_(self, nome, email, senha, repeteSenha, curtidas, roteiros):
+    def __init__(self, nome, email, senha, repeteSenha, curtidas, roteiros):
         self.nome = nome
         self.email = email
         self.senha = senha
@@ -22,7 +22,7 @@ class Usuario:
     
     
 class Atividade:
-    def _init_(self, imagem,  nome, nota, descricao, duracaoAtividade, tags, servicos, localizacao, comentario):
+    def __init__(self, imagem,  nome, nota, descricao, duracaoAtividade, tags, servicos, localizacao, comentario):
         self.imagem = imagem
         self.nome = nome
         self.nota = nota
@@ -163,18 +163,12 @@ def verPasseio():
         if escolha == 0:
             escolherPasseio()
 atividade = praia1
+filtros = ["Bom para crianças", "Natureza", "aventura", "para Casais", "Pet friendly", "praia", "bom para idosos"]
 
-def filtrar():
+def filtrar(filtros):
     print("Selecione o filtro que você deseja aplicar para passeios: ")
-    print("1: Bom para crianças")
-    print("2: Natureza")
-    print("3: Aventura")
-    print("4: Para casais")
-    print("5: Relaxante")
-    print("6: Pet friendly")
-    print("7: Praia")
-    print("8: Bom para idosos")
-
+    for i in range(len(filtros)):
+        print(f"[{i+1}] - {filtros[i]}")
 
 
 def escolherPasseio(): 
@@ -239,7 +233,8 @@ def main():
             #fazerPesquisa()
             return
             
-main()            
+# main()      
+filtrar(filtros)      
 
         
         
