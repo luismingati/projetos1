@@ -1,0 +1,15 @@
+
+*eu e caio*
+criar file************
+organizar codigo
+fazer o proximo fluxo
+CHECAR CONTEÚDO
+ver prints que faltam na main (quiz, criar roteiro e roteiros)
+alterar conteúdo de passeio
+printar roteiro com horários
+ver perfil
+printar favoritos
+criar menu de curtidas
+
+*bela e camila*
+fazer a função do quiz

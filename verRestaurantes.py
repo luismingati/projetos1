@@ -34,7 +34,7 @@ def visualizarRestaurante(visualizar, retorno):
     if acao == 2:
       pass
       #fazCOmentario()
-    #print((nome.imagem.login),"          ",alcculaNota(),"\n",texto)
+    #print((nome.imagem.login),"",alcculaNota(),"\n",texto)
 
 def pesquisar(pesquisa, atividades):
   atividadesFiltradas = []

@@ -13,7 +13,14 @@ class Usuario:
         return
     
     def curtir(self, atividade):
-        return
+        if(atividade in self.curtidas):
+            print("Atividade já foi adicionada")
+        else:
+            self.curtidas.append(atividade)
+            
+    def removeCurtida(self, atividade):
+        if atividade in self.curtidas:
+            self.curtidas.remove(atividade)
 
     def adicionarRoteiro(self, atividade):
         return
@@ -114,7 +121,7 @@ def filtraAtividade(listaAtividades, tags):
 # verPraia() #printar todas informações da praia
 
 roteiros = []
-roteiros = [[], [], [], []]
+
 
 def criarRoteiro():
     quant = len(roteiros) + 1
