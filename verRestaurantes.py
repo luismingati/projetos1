@@ -38,16 +38,25 @@ def visualizarRestaurante(visualizar, retorno):
 
 def pesquisar(pesquisa, atividades):
   atividadesFiltradas = []
-  for atividade in atividades:
-    if pesquisa.lower() == atividade.nome.lower():
-      atividadesFiltradas.append(atividade)
-    for tag in atividade.tags:
-      if tag.lower() == pesquisa.lower():
+  if(type(pesquisa) == str):
+    for atividade in atividades:
+      if pesquisa.lower() == atividade.nome.lower():
         atividadesFiltradas.append(atividade)
-  if len(atividadesFiltradas) == 0:
-    print("Nao encontramos nada relacionado")
-  return atividadesFiltradas
-
+      for tag in atividade.tags:
+        if tag.lower() == pesquisa.lower():
+          atividadesFiltradas.append(atividade)
+    if len(atividadesFiltradas) == 0:
+      print("Nao encontramos nada relacionado")
+    return atividadesFiltradas
+  else:
+    for item in pesquisa:
+      for atividade in atividades:
+        for tag in atividade.tags:
+          if tag.lower() == item.lower() and atividade not in atividadesFiltradas:
+            atividadesFiltradas.append(atividade)
+    if len(atividadesFiltradas) == 0:
+      print("Nao encontramos nada relacionado")
+    return atividadesFiltradas
 
 def verPerfil(usuario):
   while True:

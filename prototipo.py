@@ -14,6 +14,7 @@ restaurante_cocobambu = {
 }
 
 
+
 def start():
     while True:
         print("Digite onde voce quer ir.")
