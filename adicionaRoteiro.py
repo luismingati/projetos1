@@ -1,4 +1,4 @@
-user = Usuario("nome", "email", "senha", "repeteSenha", "curtidas", [])
+#user = Usuario("nome", "email", "senha", "repeteSenha", "curtidas", [])
 
 def criarRoteiro(usuario):
     usuario.roteiros.append(None)

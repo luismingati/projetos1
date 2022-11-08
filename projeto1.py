@@ -24,7 +24,25 @@ class Usuario:
 
     def adicionarRoteiro(self, atividade):
         return
-    
+
+    def fazComentario(self, atividade, texto, nota, imagem):
+        comentario = Comentario(self, atividade, texto, nota, imagem)
+        
+        if not atividade.comentario:
+            print("IF PRINCIPAL")
+            atividade.comentario.append(comentario)
+            atividade.nota.append(nota)
+        else:
+            print("ELSE PRINCIPAL")
+            for comentario_atividade in atividade.comentario:
+                if comentario_atividade.usuario_c.email == self.email:
+                    print("IF SECUNDARIO")
+                    print("voce ja fez um comentario nessa atividade!")
+                else:
+                    print("ELSE PRINCIPAL")
+                    atividade.comentario.append(comentario)
+                    atividade.nota.append(nota)
+                    break
     
 class Atividade:
     def __init__(self, imagem,  nome, nota, descricao, duracaoAtividade, tags, servicos, localizacao, comentario):
@@ -40,6 +58,25 @@ class Atividade:
 
     def calculaNota(self):
         return (sum(self.nota)/len(self.nota))
+
+    def verComentarios(self):
+        if not self.comentario:
+            print("Esta publicacão ainda não tem avaliações")
+        else:
+            print("\n","-"*30,"\n")
+            for comentario in self.comentario:
+                avaliacao = comentario.nota * "*"
+                print(f"{comentario.usuario_c.nome}\t{avaliacao}\n")
+                print(f"{comentario.texto}\n{comentario.imagem}")
+                print("\n","-"*30,"\n")
+
+class Comentario:
+    def __init__(self, usuario_c, atividade_c, texto, nota, imagem):
+        self.usuario_c = usuario_c
+        self.atividade_c = atividade_c
+        self.texto = texto
+        self.nota = nota
+        self.imagem = imagem
 
 # atividade1 = Atividade("imagemx", "Praia de bv", 5, "descricao praia bv", 10, ["praia", "cerveja", "drinks"], ["barraquinha"], "rua", ["muuto top", "meio paia"])
 # atividade2 = Atividade("imagemx", "Praia de piedade", 5, "descricao praia bv", 10, ["praia", "cerveja", "drinks"], ["barraquinha"], "rua", ["muuto top", "meio paia"])
@@ -69,11 +106,22 @@ restaurante1 = Atividade( "imagem restaurante1",  "nome restaurante 1", [5, 4, 3
 restaurante2 = Atividade( "imagem restaurante2",  "nome restaurante 2", [5, 4, 3], "Descrição restaurante 2", "02:15", ["tag1","tag3","tag6","tag9","tag10"], ["servico1 restaurante2", "servico2 restaurante2"], "Localizacao restaurante 2", ["comentário1 restaurante2","comentário2 restaurante2","comentário3 restaurante2"])
 restaurante3 = Atividade( "imagem restaurante3",  "nome restaurante 3", [5, 4, 3], "Descrição restaurante 3", "04:00", ["tag1","tag3","tag6","tag9","tag10"], ["servico1 restaurante3", "servico2 restaurante3"], "Localizacao restaurante 3", ["comentário1 restaurante3","comentário2 restaurante3","comentário3 restaurante3"])
 restaurante4 = Atividade( "imagem restaurante4",  "nome restaurante 4", [5, 4, 3], "Descrição restaurante 4", "02:15", ["tag1","tag3","tag6","tag9","tag10"], ["servico1 restaurante4", "servico2 restaurante4"], "Localizacao restaurante 4", ["comentário1 restaurante4","comentário2 restaurante4","comentário3 restaurante4"])
-restaurante5 = Atividade( "imagem restaurante5",  "nome restaurante 5", [5, 4, 3], "Descrição restaurante 5", "02:30", ["tag1","tag3","tag6","tag9","tag10"], ["servico1 restaurante5", "servico2 restaurante5"], "Localizacao restaurante 5", ["comentário1 restaurante5","comentário2 restaurante5","comentário3 restaurante5"])
+restaurante5 = Atividade( "imagem restaurante5",  "nome restaurante 5", [5, 4, 3], "Descrição restaurante 5", "02:30", ["tag1","tag3","tag6","tag9","tag10"], ["servico1 restaurante5", "servico2 restaurante5"], "Localizacao restaurante 5", [])
 restaurantes = [restaurante1,restaurante2,restaurante3,restaurante4,restaurante5]
 
 
+u1 = Usuario("luis", "email", "senha", "repeteSenha", "curtidas", "roteiros")
+u2 = Usuario("caio", "email2", "senha", "repeteSenha", "curtidas", "roteiros")
 
+u1.fazComentario(restaurante5, "texto", 5, "imagem")
+print("______________")
+u2.fazComentario(restaurante5, "texto", 5, "imagem")
+print("______________")
+u1.fazComentario(restaurante5, "texto", 5, "imagem")
+print("______________")
+u2.fazComentario(restaurante5, "texto", 5, "imagem")
+u2.fazComentario(restaurante5, "texto", 5, "imagem")
+restaurante5.verComentarios()
 def fazLogin(usuario):
     pass
 
@@ -177,7 +225,7 @@ def escolherPasseio(passeios):
         main()
     if valorEscolhido == -1:
         filtrar()   
-            
+
     
 def main():
    
@@ -188,7 +236,6 @@ def main():
     print("7 para ver atrações populares\n8 para usar a ferramenta de pesquisa")
     goTo = int(input())
 
-<<<<<<< HEAD
     if goTo == 1:
         #verPerfil()
         return
@@ -203,7 +250,6 @@ def main():
             verRestaurantes(restaurantes)
             rest = int(input())
             visualizarRestaurante(restaurantes[rest-1],restaurantes)
-        
     if goTo == 5:
         #verRestaurantes()
         return
@@ -216,34 +262,8 @@ def main():
     if goTo == 8:
         #fazerPesquisa()
         return
-=======
-        if goTo == 1:
-            #verPerfil()
-            return
-        if goTo == 2:
-            #verRoteiros()
-            return
-        if goTo == 3:
-            #verPraias()
-            return
-        if goTo == 4:
-            escolherPasseio(passeios)
-            return
-        if goTo == 5:
-            #verRestaurantes()
-            return
-        if goTo == 6:
-            #RoteirosOutrosViajantes()
-            return
-        if goTo == 7:
-            #AtracoesPopulares()
-            return
-        if goTo == 8:
-            #fazerPesquisa()
-            return
->>>>>>> d28ae612411f029525805786c5aee69459c5144d
             
-main()            
+      
 
 #class Quiz:
     #def __init__(self,)
