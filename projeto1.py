@@ -23,29 +23,36 @@ class Usuario:
             self.curtidas.remove(atividade)
 
     def adicionarRoteiro(self, atividade):
-        return
+        i=0
+        quantidadeDeRoteiros = len(self.roteiros)
+        print("Escolha o roteiro que você quer?")
+        print( "0 - criar roteiro")
+        for i in range(quantidadeDeRoteiros):
+            print(f"{i+1} - Roteiro {i+1}")
+        roteiroSelecionado = int(input())
+        self.roteiros[i].append(atividade)
+        if roteiroSelecionado == 0:
+            criarRoteiro()
 
     def fazComentario(self, atividade, texto, nota, imagem):
         comentario = Comentario(self, atividade, texto, nota, imagem)
-        
+        listaComentarios = []
+        for comentarioAtividade in atividade.comentario:
+            listaComentarios.append(comentarioAtividade.usuario_c.email)
         if not atividade.comentario:
-            print("IF PRINCIPAL")
             atividade.comentario.append(comentario)
             atividade.nota.append(nota)
         else:
-            print("ELSE PRINCIPAL")
-            for comentario_atividade in atividade.comentario:
-                if comentario_atividade.usuario_c.email == self.email:
-                    print("IF SECUNDARIO")
-                    print("voce ja fez um comentario nessa atividade!")
-                else:
-                    print("ELSE PRINCIPAL")
-                    atividade.comentario.append(comentario)
-                    atividade.nota.append(nota)
-                    break
+            if self.email in listaComentarios:
+                print("voce ja fez um comentario nessa atividade!")
+            else:
+                atividade.comentario.append(comentario)
+                atividade.nota.append(nota)
+                
+            
     
 class Atividade:
-    def __init__(self, imagem,  nome, nota, descricao, duracaoAtividade, tags, servicos, localizacao, comentario):
+    def __init__(self, imagem,  nome, nota, descricao, duracaoAtividade, tags, servicos, localizacao, comentario, categoria):
         self.imagem = imagem
         self.nome = nome
         self.nota = nota
@@ -55,6 +62,7 @@ class Atividade:
         self.servicos = servicos
         self.localizacao = localizacao
         self.comentario = comentario
+        self.categoria = categoria
 
     def calculaNota(self):
         return (sum(self.nota)/len(self.nota))
@@ -90,38 +98,29 @@ class Comentario:
 # for praia in praia:
 #     nomePraia = []
 
-praia1 = Atividade( "imagem praia1",  "nome praia 1", [5, 4, 3], "Descrição praia 1", "01:30", ["tag1","tag3","tag6","tag9","tag10"], ["servico1 praia1", "servico2 praia1"], "Localizacao praia 1", ["comentário1 praia1","comentário2 praia1","comentário3 praia1"])
-praia2 = Atividade( "imagem praia2",  "nome praia 2", [5, 2, 1], "Descrição praia 2", "02:30", ["tag1","tag2","tag3","tag4","tag5"], ["servico1 praia2", "servico2 praia2"], "Localizacao praia 2", ["comentário1 praia2","comentário2 praia2","comentário3 praia2"])
-praia3 = Atividade( "imagem praia3",  "nome praia 3", [3, 4, 5], "Descrição praia 3", "00:30", ["tag2","tag4","tag6","tag8","tag10"], ["servico1 praia3", "servico2 praia3"], "Localizacao praia 3", ["comentário1 praia3","comentário2 praia3","comentário3 praia3"])
-praia4 = Atividade( "imagem praia4",  "nome praia 4", [1, 2, 3], "Descrição praia 4", "01:00", ["tag1","tag2","tag4","tag5","tag9"], ["servico1 praia4", "servico2 praia4"], "Localizacao praia 4", ["comentário1 praia4","comentário2 praia4","comentário3 praia4"])
-praia5 = Atividade( "imagem praia5",  "nome praia 5", [5, 5, 5], "Descrição praia 5", "03:00", ["tag1","tag3","tag5","tag7","tag9"], ["servico1 praia5", "servico2 praia5"], "Localizacao praia 5", ["comentário1 praia5","comentário2 praia5","comentário3 praia5"])
+praia1 = Atividade( "imagem praia1",  "nome praia 1", [5, 4, 3], "Descrição praia 1", "01:30", ["tag1","tag3","tag6","tag9","tag10"], ["servico1 praia1", "servico2 praia1"], "Localizacao praia 1", ["comentário1 praia1","comentário2 praia1","comentário3 praia1"], "praia")
+praia2 = Atividade( "imagem praia2",  "nome praia 2", [5, 2, 1], "Descrição praia 2", "02:30", ["tag1","tag2","tag3","tag4","tag5"], ["servico1 praia2", "servico2 praia2"], "Localizacao praia 2", ["comentário1 praia2","comentário2 praia2","comentário3 praia2"], "praia")
+praia3 = Atividade( "imagem praia3",  "nome praia 3", [3, 4, 5], "Descrição praia 3", "00:30", ["tag2","tag4","tag6","tag8","tag10"], ["servico1 praia3", "servico2 praia3"], "Localizacao praia 3", ["comentário1 praia3","comentário2 praia3","comentário3 praia3"], "praia")
+praia4 = Atividade( "imagem praia4",  "nome praia 4", [1, 2, 3], "Descrição praia 4", "01:00", ["tag1","tag2","tag4","tag5","tag9"], ["servico1 praia4", "servico2 praia4"], "Localizacao praia 4", ["comentário1 praia4","comentário2 praia4","comentário3 praia4"], "praia")
+praia5 = Atividade( "imagem praia5",  "nome praia 5", [5, 5, 5], "Descrição praia 5", "03:00", ["tag1","tag3","tag5","tag7","tag9"], ["servico1 praia5", "servico2 praia5"], "Localizacao praia 5", ["comentário1 praia5","comentário2 praia5","comentário3 praia5"], "praia")
 praias = [praia1, praia2, praia3, praia4, praia5]
 
-passeioMaragogi = Atividade( "imagem passeio Maragogi",  "Passeio à maragogi", [5, 4, 3], "Saindo de maceió, ao norte, você visitará piscinas naturais", "9h", ["Bom para crianças","Natureza","Praia","Pet friendly, Bom para idosos"], ["Catamarã", "Apoio no Restaurante pontal do maragogi"], "Pontal do Maragogi, Rodovia AL 101 Norte, Km 130 s/n Burgalhau - Barra Grande, Maragogi - AL, 57799-000, Brazil", ["Passeio com preço justo","Guias divertidos e engraçados","Ótimo serviço prestado"])
-passeioMarape = Atividade( "imagem passeio Marapé",  "Passeio às Dunas de Marapé", [5, 4, 3], "Paraíso ecológico formado entre a Praia de Duas Barras e o Rio Jequiá. Além disso, pode também visualizar falésias.", "7h", ["Natureza","Aventura"], ["passeio de buggy", "Barraquinha","Day-use", "Circuito Pau-de-Arara", "Trilha dos Caetés"], "Povoado Barra de Jequia SN Duas Barras - Jequiá da Praia - Litoral Sul de Alagoas - 50 min de Maceió, Jequiá da Praia, Alagoas 57244-000 Brasil", ["Passeio Perfeito com a guia muito alegre!","Não deixe de fazer o passeio de buggy que sobe as falesias, a vista lá de cima é deslumbrante"])
-passeioHibiscus = Atividade( "imagem passeio Hibiscus",  "Passeio à ipipoca no Hibiscus beach club", [5, 4, 3], "Ida a praia de IPIOCA pra aproveitar um dia relaxante no beach club.", "3h30", ["Relaxante","Para casais","Bom para crianças","Natureza","Praia"], ["Passeios Náuticos", "Massagem relaxante","Área HIBISQUINHO para crianças","Passeio de lancha, Stand-up paddling e Caiaque"], "Rodovia AL 101 Norte, Bairro Ipioca Residencial Angra de Ipioca, Maceió, Alagoas 57039-705 Brasil", ["Paraíso!","Praia boa, mas experiência ruim.","Ótimo para casais, mas chegue cedo para pegar lugar."])
+passeioMaragogi = Atividade( "imagem passeio Maragogi",  "Passeio à maragogi", [5, 4, 3], "Saindo de maceió, ao norte, você visitará piscinas naturais", "9h", ["Bom para crianças","Natureza","Praia","Pet friendly, Bom para idosos"], ["Catamarã", "Apoio no Restaurante pontal do maragogi"], "Pontal do Maragogi, Rodovia AL 101 Norte, Km 130 s/n Burgalhau - Barra Grande, Maragogi - AL, 57799-000, Brazil", ["Passeio com preço justo","Guias divertidos e engraçados","Ótimo serviço prestado"], "passeio")
+passeioMarape = Atividade( "imagem passeio Marapé",  "Passeio às Dunas de Marapé", [5, 4, 3], "Paraíso ecológico formado entre a Praia de Duas Barras e o Rio Jequiá. Além disso, pode também visualizar falésias.", "7h", ["Natureza","Aventura"], ["passeio de buggy", "Barraquinha","Day-use", "Circuito Pau-de-Arara", "Trilha dos Caetés"], "Povoado Barra de Jequia SN Duas Barras - Jequiá da Praia - Litoral Sul de Alagoas - 50 min de Maceió, Jequiá da Praia, Alagoas 57244-000 Brasil", ["Passeio Perfeito com a guia muito alegre!","Não deixe de fazer o passeio de buggy que sobe as falesias, a vista lá de cima é deslumbrante"], "passeio")
+passeioHibiscus = Atividade( "imagem passeio Hibiscus",  "Passeio à ipipoca no Hibiscus beach club", [5, 4, 3], "Ida a praia de IPIOCA pra aproveitar um dia relaxante no beach club.", "3h30", ["Relaxante","Para casais","Bom para crianças","Natureza","Praia"], ["Passeios Náuticos", "Massagem relaxante","Área HIBISQUINHO para crianças","Passeio de lancha, Stand-up paddling e Caiaque"], "Rodovia AL 101 Norte, Bairro Ipioca Residencial Angra de Ipioca, Maceió, Alagoas 57039-705 Brasil", ["Paraíso!","Praia boa, mas experiência ruim.","Ótimo para casais, mas chegue cedo para pegar lugar."], "passeio")
 passeios = [passeioMaragogi, passeioMarape, passeioHibiscus]
 
-restaurante1 = Atividade( "imagem restaurante1",  "nome restaurante 1", [5, 4, 3], "Descrição restaurante 1", "01:30", ["tag1","tag3","tag6","tag9","tag10"], ["servico1 restaurante1", "servico2 restaurante1"], "Localizacao restaurante 1", ["comentário1 restaurante1","comentário2 restaurante1","comentário3 restaurante1"])
-restaurante2 = Atividade( "imagem restaurante2",  "nome restaurante 2", [5, 4, 3], "Descrição restaurante 2", "02:15", ["tag1","tag3","tag6","tag9","tag10"], ["servico1 restaurante2", "servico2 restaurante2"], "Localizacao restaurante 2", ["comentário1 restaurante2","comentário2 restaurante2","comentário3 restaurante2"])
-restaurante3 = Atividade( "imagem restaurante3",  "nome restaurante 3", [5, 4, 3], "Descrição restaurante 3", "04:00", ["tag1","tag3","tag6","tag9","tag10"], ["servico1 restaurante3", "servico2 restaurante3"], "Localizacao restaurante 3", ["comentário1 restaurante3","comentário2 restaurante3","comentário3 restaurante3"])
-restaurante4 = Atividade( "imagem restaurante4",  "nome restaurante 4", [5, 4, 3], "Descrição restaurante 4", "02:15", ["tag1","tag3","tag6","tag9","tag10"], ["servico1 restaurante4", "servico2 restaurante4"], "Localizacao restaurante 4", ["comentário1 restaurante4","comentário2 restaurante4","comentário3 restaurante4"])
-restaurante5 = Atividade( "imagem restaurante5",  "nome restaurante 5", [5, 4, 3], "Descrição restaurante 5", "02:30", ["tag1","tag3","tag6","tag9","tag10"], ["servico1 restaurante5", "servico2 restaurante5"], "Localizacao restaurante 5", [])
+restaurante1 = Atividade( "imagem restaurante1",  "nome restaurante 1", [5, 4, 3], "Descrição restaurante 1", "01:30", ["tag1","tag3","tag6","tag9","tag10"], ["servico1 restaurante1", "servico2 restaurante1"], "Localizacao restaurante 1", ["comentário1 restaurante1","comentário2 restaurante1","comentário3 restaurante1"], "restaurante")
+restaurante2 = Atividade( "imagem restaurante2",  "nome restaurante 2", [5, 4, 3], "Descrição restaurante 2", "02:15", ["tag1","tag3","tag6","tag9","tag10"], ["servico1 restaurante2", "servico2 restaurante2"], "Localizacao restaurante 2", ["comentário1 restaurante2","comentário2 restaurante2","comentário3 restaurante2"], "restaurante")
+restaurante3 = Atividade( "imagem restaurante3",  "nome restaurante 3", [5, 4, 3], "Descrição restaurante 3", "04:00", ["tag1","tag3","tag6","tag9","tag10"], ["servico1 restaurante3", "servico2 restaurante3"], "Localizacao restaurante 3", ["comentário1 restaurante3","comentário2 restaurante3","comentário3 restaurante3"], "restaurante")
+restaurante4 = Atividade( "imagem restaurante4",  "nome restaurante 4", [5, 4, 3], "Descrição restaurante 4", "02:15", ["tag1","tag3","tag6","tag9","tag10"], ["servico1 restaurante4", "servico2 restaurante4"], "Localizacao restaurante 4", ["comentário1 restaurante4","comentário2 restaurante4","comentário3 restaurante4"], "restaurante")
+restaurante5 = Atividade( "imagem restaurante5",  "nome restaurante 5", [5, 4, 3], "Descrição restaurante 5", "02:30", ["tag1","tag3","tag6","tag9","tag10"], ["servico1 restaurante5", "servico2 restaurante5"], "Localizacao restaurante 5", [], "restaurante")
 restaurantes = [restaurante1,restaurante2,restaurante3,restaurante4,restaurante5]
 
 
-u1 = Usuario("luis", "email", "senha", "repeteSenha", "curtidas", "roteiros")
-u2 = Usuario("caio", "email2", "senha", "repeteSenha", "curtidas", "roteiros")
+u1 = Usuario("luis", "EMAIL@LUIS", "senha", "repeteSenha", "curtidas", "roteiros")
+u2 = Usuario("caio", "EMAIL@CAIO", "senha", "repeteSenha", "curtidas", "roteiros")
 
-u1.fazComentario(restaurante5, "texto", 5, "imagem")
-print("______________")
-u2.fazComentario(restaurante5, "texto", 5, "imagem")
-print("______________")
-u1.fazComentario(restaurante5, "texto", 5, "imagem")
-print("______________")
-u2.fazComentario(restaurante5, "texto", 5, "imagem")
-u2.fazComentario(restaurante5, "texto", 5, "imagem")
-restaurante5.verComentarios()
 def fazLogin(usuario):
     pass
 
@@ -174,28 +173,28 @@ def filtraAtividade(listaAtividades, tags):
 
     
 
-def verPasseio():
-    while True:
-        print("Escolha a opção desejada: ")
-        print("1 para adicionar esse passeio ao seu roteiro")
-        print("2 para curtir esse passeio")
-        print("3 para fazer um comentário sobre ele")
-        print("0 para voltar para ver outras opções de passeios")
+# def verPasseio():
+#     while True:
+#         print("Escolha a opção desejada: ")
+#         print("1 para adicionar esse passeio ao seu roteiro")
+#         print("2 para curtir esse passeio")
+#         print("3 para fazer um comentário sobre ele")
+#         print("0 para voltar para ver outras opções de passeios")
         
-        escolha = (int(input()))
+#         escolha = (int(input()))
         
-        if escolha == 1:
-           adicionarRoteiro()
+#         if escolha == 1:
+#            adicionarRoteiro()
         
-        if escolha == 2:
-            criarRoteiro()
-           # curtir()
+#         if escolha == 2:
+#             criarRoteiro()
+#            # curtir()
             
-        #if escolha == 3:
-           # fazComentario()
+#         #if escolha == 3:
+#            # fazComentario()
             
-        if escolha == 0:
-            escolherPasseio()
+#         if escolha == 0:
+#             escolherPasseio()
 
 filtros = ["Bom para crianças", "Natureza", "aventura", "para Casais", "Pet friendly", "praia", "bom para idosos"]
 
@@ -228,47 +227,47 @@ def escolherPasseio(passeios):
 
     
 def main():
-   
-    print("Escolha a opção desejada: ")
-    print("1 para entrar em seu perfil\n2 para ver roteiros")
-    print("3 para ver praias\n4 para ver passeios")
-    print("5 para ver restaurantes\n6 para ver roteiros curtidos por outros viajantes como você")
-    print("7 para ver atrações populares\n8 para usar a ferramenta de pesquisa")
-    goTo = int(input())
+    while True:
+        print("Escolha a opção desejada: ")
+        print("1 para entrar em seu perfil\n2 para ver roteiros")
+        print("3 para ver praias\n4 para ver passeios")
+        print("5 para ver restaurantes\n6 para ver roteiros curtidos por outros viajantes como você")
+        print("7 para ver atrações populares\n8 para usar a ferramenta de pesquisa")
+        goTo = int(input())
 
-    if goTo == 1:
-        #verPerfil()
-        return
-    if goTo == 2:
-        #verRoteiros()
-        return
-    if goTo == 3:
-        #verPraias()
-        return
-    if goTo == 4:
-        while True:
-            verRestaurantes(restaurantes)
-            rest = int(input())
-            visualizarRestaurante(restaurantes[rest-1],restaurantes)
-    if goTo == 5:
-        #verRestaurantes()
-        return
-    if goTo == 6:
-        #RoteirosOutrosViajantes()
-        return
-    if goTo == 7:
-        #AtracoesPopulares()
-        return
-    if goTo == 8:
-        #fazerPesquisa()
-        return
-            
-      
+        if goTo == 1:
+            #verPerfil()
+            return
+        if goTo == 2:
+            #verRoteiros()
+            return
+        if goTo == 3:
+            verAtividades(praias)
+        if goTo == 4:
+            # while True:
+            #     verRestaurantes(restaurantes)
+            #     rest = int(input())
+            #     visualizarRestaurante(restaurantes[rest-1],restaurantes)
+            pass
+        if goTo == 5:
+            #verRestaurantes()
+            return
+        if goTo == 6:
+            #RoteirosOutrosViajantes()
+            return
+        if goTo == 7:
+            #AtracoesPopulares()
+            return
+        if goTo == 8:
+            #fazerPesquisa()
+            return
+                
+        
 
 #class Quiz:
     #def __init__(self,)
     
-        
+main()
 # verRestaurante() #printar todas informaçoes do restaurante
 # adicionarAoRoteiro() #adiciona a atividade selecionada para um roteiro.
 # curtirAtividade() #adiciona a atividade curtida a uma lista de atividades curtidas pelo usuario

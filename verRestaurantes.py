@@ -1,15 +1,25 @@
 
-def verRestaurantes(restaurantes):
-  print("------------------------")  
-  for i in range(len(restaurantes)):
-    print(f"Digite [{i+1}] para visualizar")
-    print(restaurantes[i].imagem)
-    print()
-    print(f"{restaurantes[i].nome} - {restaurantes[i].calculaNota()}")
-    print()
-    print("------------------------")
 
-def visualizarRestaurante(visualizar, retorno):
+def verAtividades(atividades):
+  while True:
+    print("------------------------")  
+    for i in range(len(atividades)):
+      print(f"Digite [{i+1}] para visualizar")
+      print(atividades[i].imagem)
+      print()
+      print(f"{atividades[i].nome} - {atividades[i].calculaNota()}")
+      print()
+      print(f"Categoria: {atividades[i].categoria}")
+      print("------------------------")
+    toDo = int(input())
+    if toDo > 0:
+      visualizarAtividade(atividades[toDo-1])
+    elif toDo == 0: 
+      break
+
+
+def visualizarAtividade(visualizar):
+  while True:
     print(visualizar.imagem)
     print(visualizar.nome)
     print(visualizar.calculaNota())           
@@ -27,10 +37,10 @@ def visualizarRestaurante(visualizar, retorno):
     print("[2] - Fazer Comentário")
     acao = int(input())
     if acao == 0:
-      verRestaurantes(retorno)
+      break
     if acao ==1:
-      adicionarRoteiro(visualizar)
-      
+      # adicionarRoteiro(visualizar)
+      pass
     if acao == 2:
       pass
       #fazCOmentario()
