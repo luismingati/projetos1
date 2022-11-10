@@ -65,7 +65,7 @@ class Atividade:
         self.categoria = categoria
 
     def calculaNota(self):
-        return (sum(self.nota)/len(self.nota))
+        return round((sum(self.nota)/len(self.nota)))
 
     def verComentarios(self):
         if not self.comentario:
@@ -116,7 +116,7 @@ restaurante3 = Atividade( "imagem restaurante3",  "nome restaurante 3", [5, 4, 3
 restaurante4 = Atividade( "imagem restaurante4",  "nome restaurante 4", [5, 4, 3], "Descrição restaurante 4", "02:15", ["tag1","tag3","tag6","tag9","tag10"], ["servico1 restaurante4", "servico2 restaurante4"], "Localizacao restaurante 4", ["comentário1 restaurante4","comentário2 restaurante4","comentário3 restaurante4"], "restaurante")
 restaurante5 = Atividade( "imagem restaurante5",  "nome restaurante 5", [5, 4, 3], "Descrição restaurante 5", "02:30", ["tag1","tag3","tag6","tag9","tag10"], ["servico1 restaurante5", "servico2 restaurante5"], "Localizacao restaurante 5", [], "restaurante")
 restaurantes = [restaurante1,restaurante2,restaurante3,restaurante4,restaurante5]
-
+atividades = [praia1,praia2,praia3,praia4,restaurante1,restaurante2,restaurante3,passeioHibiscus,passeioMaragogi]
 
 u1 = Usuario("luis", "EMAIL@LUIS", "senha", "repeteSenha", "curtidas", "roteiros")
 u2 = Usuario("caio", "EMAIL@CAIO", "senha", "repeteSenha", "curtidas", "roteiros")
@@ -196,22 +196,6 @@ def filtraAtividade(listaAtividades, tags):
 #         if escolha == 0:
 #             escolherPasseio()
 
-filtros = ["Bom para crianças", "Natureza", "aventura", "para Casais", "Pet friendly", "praia", "bom para idosos"]
-
-def filtrar(filtros):
-    filtrosEscolhidos = []
-    print("Selecione o filtro que você deseja aplicar para passeios: ")
-    for i in range(len(filtros)):
-        print(f"[{i+1}] - {filtros[i]}")
-    for i in range(2):
-        valorEscolhido = int(input())
-        if(valorEscolhido == 0):  
-            break
-        filtrosEscolhidos.append(filtros[valorEscolhido-1])
-    teste = pesquisar(filtrosEscolhidos, passeios)
-    for test in teste:
-        print(test.nome)
-
 def escolherPasseio(passeios): 
     print("Escolha o passeio que você quer ver: ")
     print("[-1] - Filtrar passeios")
@@ -242,16 +226,11 @@ def main():
             #verRoteiros()
             return
         if goTo == 3:
-            verAtividades(praias)
+            verAtividades(praias, atividades, todasTags(praias))
         if goTo == 4:
-            # while True:
-            #     verRestaurantes(restaurantes)
-            #     rest = int(input())
-            #     visualizarRestaurante(restaurantes[rest-1],restaurantes)
-            pass
+            verAtividades(passeios, atividades, todasTags(passeios))
         if goTo == 5:
-            #verRestaurantes()
-            return
+            verAtividades(restaurantes, atividades, todasTags(restaurantes))
         if goTo == 6:
             #RoteirosOutrosViajantes()
             return
@@ -271,6 +250,5 @@ main()
 # verRestaurante() #printar todas informaçoes do restaurante
 # adicionarAoRoteiro() #adiciona a atividade selecionada para um roteiro.
 # curtirAtividade() #adiciona a atividade curtida a uma lista de atividades curtidas pelo usuario
-# fazerComentario() #recebe um usuario que da uma nota 0-5 estrelas (tem que alterar a média da nota do passeio) e adicionar o comentario à uma lista de comentarios da atividade.
-# filtrar() #recebe as tags que o usuario quer filtrar (obs: um valor para cada filtro selecionado.), compara com as tags da atividade e retorna uma lista de atividades que possuem as tags selecionadas.
+# fazerComentario() #recebe um usuario que da uma nota 0-5 estrelas (tem que alterar a média da nota do passeio) e adicionar o
 # fazerPesquisa() #recebe um input do usuario e faz a pesquisa dele.

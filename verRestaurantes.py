@@ -1,6 +1,5 @@
-
-
-def verAtividades(atividades):
+import os
+def verAtividades(atividades, todasAtividades, filtros):
   while True:
     print("------------------------")  
     for i in range(len(atividades)):
@@ -10,15 +9,23 @@ def verAtividades(atividades):
       print(f"{atividades[i].nome} - {atividades[i].calculaNota()}")
       print()
       print(f"Categoria: {atividades[i].categoria}")
+      print(f"Tags: {atividades[i].tags}")
       print("------------------------")
+    print("[-1] Pesquisar")
+    print("[-2] Aplicar Filtros")
     toDo = int(input())
     if toDo > 0:
-      visualizarAtividade(atividades[toDo-1])
+      visualizarAtividade(atividades[toDo-1], todasAtividades)
     elif toDo == 0: 
       break
+    elif toDo == -1:
+      pesquisa = input()
+      verAtividades(pesquisar(pesquisa, todasAtividades), todasAtividades, filtros)
+    elif toDo == -2:
+      verAtividades(filtrar(filtros, atividades), todasAtividades, filtros)
 
 
-def visualizarAtividade(visualizar):
+def visualizarAtividade(visualizar, todasAtividades):
   while True:
     print(visualizar.imagem)
     print(visualizar.nome)
@@ -35,13 +42,14 @@ def visualizarAtividade(visualizar):
     print("[0] - Voltar")
     print("[1] - Adicionar ao Roteiro")
     print("[2] - Fazer Comentário")
-    acao = int(input())
-    if acao == 0:
+    print("[-1] - Pesquisar")
+    toDo = int(input())
+    if toDo == 0:
       break
-    if acao ==1:
-      # adicionarRoteiro(visualizar)
-      pass
-    if acao == 2:
+    if toDo == -1:
+      pesquisa = input()
+      verAtividades(pesquisar(pesquisa, todasAtividades), todasAtividades, [''])
+    if toDo == -2:
       pass
       #fazCOmentario()
     #print((nome.imagem.login),"",alcculaNota(),"\n",texto)
@@ -85,3 +93,27 @@ def verPerfil(usuario):
       print(usuario.nome)
       print(usuario.email)
       print(usuario.roteiros)
+
+def filtrar(filtros, atividades):
+    filtrosEscolhidos = []
+    print("Selecione o(s) filtro(s) que você deseja aplicar: ")
+    for i in range(len(filtros)):
+        print(f"[{i+1}] - {filtros[i]}")
+    for i in range(2):
+        valorEscolhido = int(input())
+        if(valorEscolhido == 0):  
+            break
+        filtrosEscolhidos.append(filtros[valorEscolhido-1])
+    teste = pesquisar(filtrosEscolhidos, atividades)
+    return teste
+
+
+def todasTags(atividades):
+    filtros = []
+    for atividade in atividades:
+        for filtro in atividade.tags:
+            if filtro not in filtros:
+                filtros.append(filtro)
+            else:
+                pass
+    return filtros
