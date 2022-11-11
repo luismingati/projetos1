@@ -1,54 +1,5 @@
 from verRestaurantes import *
 
-class Usuario:
-    def __init__(self, nome, email, senha, repeteSenha, curtidas, roteiros):
-        self.nome = nome
-        self.email = email
-        self.senha = senha
-        self.repeteSenha = repeteSenha
-        self.curtidas = curtidas
-        self.roteiros = roteiros  
-
-    def fazComentario(self, atividade, texto, nota, imagem):
-        return
-    
-    def curtir(self, atividade):
-        if(atividade in self.curtidas):
-            print("Atividade já foi adicionada")
-        else:
-            self.curtidas.append(atividade)
-            
-    def removeCurtida(self, atividade):
-        if atividade in self.curtidas:
-            self.curtidas.remove(atividade)
-
-    def adicionarRoteiro(self, atividade):
-        i=0
-        quantidadeDeRoteiros = len(self.roteiros)
-        print("Escolha o roteiro que você quer?")
-        print( "0 - criar roteiro")
-        for i in range(quantidadeDeRoteiros):
-            print(f"{i+1} - Roteiro {i+1}")
-        roteiroSelecionado = int(input())
-        self.roteiros[i].append(atividade)
-        if roteiroSelecionado == 0:
-            criarRoteiro()
-
-    def fazComentario(self, atividade, texto, nota, imagem):
-        comentario = Comentario(self, atividade, texto, nota, imagem)
-        listaComentarios = []
-        for comentarioAtividade in atividade.comentario:
-            listaComentarios.append(comentarioAtividade.usuario_c.email)
-        if not atividade.comentario:
-            atividade.comentario.append(comentario)
-            atividade.nota.append(nota)
-        else:
-            if self.email in listaComentarios:
-                print("voce ja fez um comentario nessa atividade!")
-            else:
-                atividade.comentario.append(comentario)
-                atividade.nota.append(nota)
-                
             
     
 class Atividade:
@@ -118,8 +69,6 @@ restaurante5 = Atividade( "imagem restaurante5",  "nome restaurante 5", [5, 4, 3
 restaurantes = [restaurante1,restaurante2,restaurante3,restaurante4,restaurante5]
 atividades = [praia1,praia2,praia3,praia4,restaurante1,restaurante2,restaurante3,passeioHibiscus,passeioMaragogi]
 
-u1 = Usuario("luis", "EMAIL@LUIS", "senha", "repeteSenha", "curtidas", "roteiros")
-u2 = Usuario("caio", "EMAIL@CAIO", "senha", "repeteSenha", "curtidas", "roteiros")
 
 def fazLogin(usuario):
     pass
@@ -211,6 +160,8 @@ def escolherPasseio(passeios):
 
     
 def main():
+    global logado
+    global usuarioAtual
     while True:
         print("Escolha a opção desejada: ")
         print("1 para entrar em seu perfil\n2 para ver roteiros")
@@ -218,13 +169,10 @@ def main():
         print("5 para ver restaurantes\n6 para ver roteiros curtidos por outros viajantes como você")
         print("7 para ver atrações populares\n8 para usar a ferramenta de pesquisa")
         goTo = int(input())
-
         if goTo == 1:
-            #verPerfil()
-            return
+            verPerfil()
         if goTo == 2:
-            #verRoteiros()
-            return
+            pass
         if goTo == 3:
             verAtividades(praias, atividades, todasTags(praias))
         if goTo == 4:

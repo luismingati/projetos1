@@ -1,3 +1,4 @@
+
 class Usuario:
     def __init__(self, nome, email, senha, senhaRepetida):
         self.nome = nome
@@ -16,6 +17,7 @@ restaurante_cocobambu = {
 
 
 def start():
+   
     while True:
         print("Digite onde voce quer ir.")
         print("1 - Ver Perfil")

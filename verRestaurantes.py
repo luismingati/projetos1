@@ -1,4 +1,62 @@
-import os
+# from projeto1 import main
+logado = False
+usuarioAtual = None
+
+class Usuario:
+    def __init__(self, nome, email, senha, repeteSenha, curtidas, roteiros):
+        self.nome = nome
+        self.email = email
+        self.senha = senha
+        self.repeteSenha = repeteSenha
+        self.curtidas = curtidas
+        self.roteiros = roteiros  
+
+    def fazComentario(self, atividade, texto, nota, imagem):
+        return
+    
+    def curtir(self, atividade):
+        if(atividade in self.curtidas):
+            print("Atividade já foi adicionada")
+        else:
+            self.curtidas.append(atividade)
+            
+    def removeCurtida(self, atividade):
+        if atividade in self.curtidas:
+            self.curtidas.remove(atividade)
+
+    def adicionarRoteiro(self, atividade):
+        i=0
+        quantidadeDeRoteiros = len(self.roteiros)
+        print("Escolha o roteiro que você quer?")
+        print( "0 - criar roteiro")
+        for i in range(quantidadeDeRoteiros):
+            print(f"{i+1} - Roteiro {i+1}")
+        roteiroSelecionado = int(input())
+        self.roteiros[i].append(atividade)
+        if roteiroSelecionado == 0:
+            criarRoteiro()
+
+    def fazComentario(self, atividade, texto, nota, imagem):
+        comentario = Comentario(self, atividade, texto, nota, imagem)
+        listaComentarios = []
+        for comentarioAtividade in atividade.comentario:
+            listaComentarios.append(comentarioAtividade.usuario_c.email)
+        if not atividade.comentario:
+            atividade.comentario.append(comentario)
+            atividade.nota.append(nota)
+        else:
+            if self.email in listaComentarios:
+                print("voce ja fez um comentario nessa atividade!")
+            else:
+                atividade.comentario.append(comentario)
+                atividade.nota.append(nota)
+
+
+u1 = Usuario('luis',"luis","luis","luis",[],[])
+u2= Usuario('teste',"teste","teste","teste",[],[])
+u3= Usuario('teste2',"teste2","teste2","teste2",[],[])
+usuarios = [u1,u2,u3]
+
 def verAtividades(atividades, todasAtividades, filtros):
   while True:
     print("------------------------")  
@@ -76,23 +134,55 @@ def pesquisar(pesquisa, atividades):
       print("Nao encontramos nada relacionado")
     return atividadesFiltradas
 
-def verPerfil(usuario):
+def verPerfil():
+  global logado
+  global usuarioAtual
   while True:
-    if usuario.logado == False:
+    if logado == False:
       print("[1] - Voce ja possui uma conta?")
       print("[2] - Quer criar a sua conta?")
       conta = int(input())
       if conta == 1:
-        login = input("Digite Seu login: ")
+        login = input("Digite Seu email: ")
         senha = input("Digite sua senha: ")
-        if usuario.email == login and usuario.senha == senha:
-          usuario.logado = True
+        for usuario in usuarios:
+          if usuario.email == login and usuario.senha == senha:
+            logado = True
+            usuarioAtual = usuario
       else:
-        print("nao temos isso hehe")
-    if usuario.logado == True:
-      print(usuario.nome)
-      print(usuario.email)
-      print(usuario.roteiros)
+        print("\tCRIAR CADASTRO")
+        nome = input("Digite seu nome")
+        email = input("Digite seu melhor email")
+        senha = input("Digite sua senha")
+        repeteSenha = input("Repita sua senha")
+        curtidas = []
+        roteiros = []
+        usuario = Usuario(nome, email, senha, repeteSenha, curtidas,roteiros)
+        usuarioAtual = usuario
+        logado = True
+        usuarios.append(usuario)
+    if logado == True:
+      print(usuarioAtual.nome)
+      print(usuarioAtual.email)
+      print(usuarioAtual.senha)
+      print("[2] Deslogar")
+      print("[1] editar perfil")
+      print("[0] voltar")
+      goTo = int(input())
+      if goTo == 0:
+        break
+      if goTo == 1:
+        novoNome = input("digite seu Nome: ")
+        novoEmail = input("Digite seu novo email: ")
+        novaSenha = input("digite sua novaSenha: ")
+        repeteNovaSenha = input("Repita sua nova senha: ")
+        usuarioAtual.nome = novoNome
+        usuarioAtual.email = novoEmail
+        usuarioAtual.senha = novaSenha
+        usuarioAtual.repeteSenha = repeteNovaSenha
+      if goTo == 2:
+        usuarioAtual = None
+        logado = False
 
 def filtrar(filtros, atividades):
     filtrosEscolhidos = []
@@ -117,3 +207,5 @@ def todasTags(atividades):
             else:
                 pass
     return filtros
+
+
