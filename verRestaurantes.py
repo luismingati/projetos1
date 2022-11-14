@@ -1,55 +1,7 @@
-# from projeto1 import main
+from Usuario import Usuario
 logado = False
 usuarioAtual = None
 
-class Usuario:
-    def __init__(self, nome, email, senha, repeteSenha, curtidas, roteiros):
-        self.nome = nome
-        self.email = email
-        self.senha = senha
-        self.repeteSenha = repeteSenha
-        self.curtidas = curtidas
-        self.roteiros = roteiros  
-
-    def fazComentario(self, atividade, texto, nota, imagem):
-        return
-    
-    def curtir(self, atividade):
-        if(atividade in self.curtidas):
-            print("Atividade já foi adicionada")
-        else:
-            self.curtidas.append(atividade)
-            
-    def removeCurtida(self, atividade):
-        if atividade in self.curtidas:
-            self.curtidas.remove(atividade)
-
-    def adicionarRoteiro(self, atividade):
-        i=0
-        quantidadeDeRoteiros = len(self.roteiros)
-        print("Escolha o roteiro que você quer?")
-        print( "0 - criar roteiro")
-        for i in range(quantidadeDeRoteiros):
-            print(f"{i+1} - Roteiro {i+1}")
-        roteiroSelecionado = int(input())
-        self.roteiros[i].append(atividade)
-        if roteiroSelecionado == 0:
-            criarRoteiro()
-
-    def fazComentario(self, atividade, texto, nota, imagem):
-        comentario = Comentario(self, atividade, texto, nota, imagem)
-        listaComentarios = []
-        for comentarioAtividade in atividade.comentario:
-            listaComentarios.append(comentarioAtividade.usuario_c.email)
-        if not atividade.comentario:
-            atividade.comentario.append(comentario)
-            atividade.nota.append(nota)
-        else:
-            if self.email in listaComentarios:
-                print("voce ja fez um comentario nessa atividade!")
-            else:
-                atividade.comentario.append(comentario)
-                atividade.nota.append(nota)
 
 
 u1 = Usuario('luis',"luis","luis","luis",[],[])
@@ -84,6 +36,7 @@ def verAtividades(atividades, todasAtividades, filtros):
 
 
 def visualizarAtividade(visualizar, todasAtividades):
+  global usuarioAtual
   while True:
     print(visualizar.imagem)
     print(visualizar.nome)
@@ -97,10 +50,13 @@ def visualizarAtividade(visualizar, todasAtividades):
     #pontos turisticos visitados
     print(" ")
     print("Avaliações: \n")
+    visualizar.verComentarios()
     print("[0] - Voltar")
-    print("[1] - Adicionar ao Roteiro")
-    print("[2] - Fazer Comentário")
     print("[-1] - Pesquisar")
+    print("[-2] - Fazer Comentário")
+    print("[-3] - Adicionar ao Roteiro")
+    print("[-4] - Curtir atividade")
+    print("[-5] - Abrir navbar")
     toDo = int(input())
     if toDo == 0:
       break
@@ -108,10 +64,58 @@ def visualizarAtividade(visualizar, todasAtividades):
       pesquisa = input()
       verAtividades(pesquisar(pesquisa, todasAtividades), todasAtividades, [''])
     if toDo == -2:
+      if not usuarioAtual:
+        verPerfil()
+      else:
+        avaliacao = input(f"Digite aqui sua avaliação para {visualizar.nome}.\n")
+        while avaliacao == "":
+          print("Digite uma avaliação.")
+          avaliacao = input(f"Digite aqui sua avaliação para {visualizar.nome}\n.")
+        nota = int(input("Digite sua nota de 0 a 5. Apenas números inteiros.\n"))
+        while nota < 0 or nota > 5:
+          print("A nota que voce digitou é inválida.")
+          nota = int(input("Digite sua nota de 0 a 5. Apenas números inteiros.\n"))
+        imagem = input("Poste sua imagem.\n")
+        usuarioAtual.fazComentario(visualizar, avaliacao, nota, imagem)
+    if toDo == -3:
+      if not usuarioAtual:
+        verPerfil()
+      else:
+        usuarioAtual.adicionarAtividadeRoteiro(visualizar)
+    if toDo == -4:
+      if not usuarioAtual:
+        verPerfil()
+      else:
+        usuarioAtual.curtir(visualizar)
+    if toDo == -5:
+      navBar()
+    
+def navBar():
+  while True:
+    print("[0] - Voltar")
+    print("[1] - Home")
+    print("[2] - Meus Roteiros")
+    print("[3] - Atividades Curtidas")
+    print("[4] - Meu Perfil")
+    goTo = int(input())
+    if goTo == 0:
+      break
+    if goTo == 1:
+      # main()
       pass
-      #fazCOmentario()
-    #print((nome.imagem.login),"",alcculaNota(),"\n",texto)
-
+    if goTo == 2:
+      if not usuarioAtual:
+        verPerfil()
+      else:
+        print(usuarioAtual.roteiros)
+    if goTo == 3:
+      if not usuarioAtual:
+        verPerfil()
+      else:
+        print(usuarioAtual.curtidas)
+    if goTo == 4:
+      verPerfil()
+    
 def pesquisar(pesquisa, atividades):
   atividadesFiltradas = []
   if(type(pesquisa) == str):
@@ -165,6 +169,7 @@ def verPerfil():
       print(usuarioAtual.nome)
       print(usuarioAtual.email)
       print(usuarioAtual.senha)
+      print(usuarioAtual.curtidas)
       print("[2] Deslogar")
       print("[1] editar perfil")
       print("[0] voltar")
@@ -209,3 +214,15 @@ def todasTags(atividades):
     return filtros
 
 
+def bubbleSort(array):
+  for i in range(len(array)):
+    swapped = False
+    for j in range(0, len(array) - i - 1):
+      if array[j].calculaNotaInt() < array[j + 1].calculaNotaInt():
+        temp = array[j]
+        array[j] = array[j+1]
+        array[j+1] = temp
+        swapped = True
+    if not swapped:
+      break	
+  return array
