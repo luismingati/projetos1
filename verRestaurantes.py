@@ -1,17 +1,23 @@
-from Usuario import Usuario
+from Usuario import *
+from data import *
 logado = False
 usuarioAtual = None
 
 
+# u1 = Usuario('luis',"luis","luis")
+# u2= Usuario('teste',"teste","teste")
+# u3= Usuario('teste2',"teste2","teste2")
+# usuarios = [u1,u2,u3]
 
-u1 = Usuario('luis',"luis","luis","luis",[],[])
-u2= Usuario('teste',"teste","teste","teste",[],[])
-u3= Usuario('teste2',"teste2","teste2","teste2",[],[])
-usuarios = [u1,u2,u3]
+usuarios = archive["usuarios"]
+passeios = archive["passeios"]
+praias = archive["praias"]
+restaurantes = archive["restaurantes"]
+atividades = archive["atividades"]
 
 def verAtividades(atividades, todasAtividades, filtros):
   while True:
-    print("------------------------")  
+    print("------------------------\n")  
     for i in range(len(atividades)):
       print(f"Digite [{i+1}] para visualizar")
       print(atividades[i].imagem)
@@ -20,7 +26,7 @@ def verAtividades(atividades, todasAtividades, filtros):
       print()
       print(f"Categoria: {atividades[i].categoria}")
       print(f"Tags: {atividades[i].tags}")
-      print("------------------------")
+      print("\n------------------------\n")
     print("[-1] Pesquisar")
     print("[-2] Aplicar Filtros")
     toDo = int(input())
@@ -36,8 +42,10 @@ def verAtividades(atividades, todasAtividades, filtros):
 
 
 def visualizarAtividade(visualizar, todasAtividades):
+  global archive
   global usuarioAtual
   while True:
+    print("------------------------\n")  
     print(visualizar.imagem)
     print(visualizar.nome)
     print(visualizar.calculaNota())           
@@ -57,6 +65,7 @@ def visualizarAtividade(visualizar, todasAtividades):
     print("[-3] - Adicionar ao Roteiro")
     print("[-4] - Curtir atividade")
     print("[-5] - Abrir navbar")
+    print("\n------------------------")
     toDo = int(input())
     if toDo == 0:
       break
@@ -77,20 +86,27 @@ def visualizarAtividade(visualizar, todasAtividades):
           nota = int(input("Digite sua nota de 0 a 5. Apenas números inteiros.\n"))
         imagem = input("Poste sua imagem.\n")
         usuarioAtual.fazComentario(visualizar, avaliacao, nota, imagem)
+        saveData(archive)
+        archive = loadData()
     if toDo == -3:
       if not usuarioAtual:
         verPerfil()
       else:
         usuarioAtual.adicionarAtividadeRoteiro(visualizar)
+        saveData(archive)
+        archive = loadData()
     if toDo == -4:
       if not usuarioAtual:
         verPerfil()
       else:
         usuarioAtual.curtir(visualizar)
+        saveData(archive)
+        archive = loadData()
     if toDo == -5:
       navBar()
     
 def navBar():
+  global usuarioAtual
   while True:
     print("[0] - Voltar")
     print("[1] - Home")
@@ -107,12 +123,12 @@ def navBar():
       if not usuarioAtual:
         verPerfil()
       else:
-        print(usuarioAtual.roteiros)
+        print(usuarioAtual.verRoteiros())
     if goTo == 3:
       if not usuarioAtual:
         verPerfil()
       else:
-        print(usuarioAtual.curtidas)
+        print(usuarioAtual.verCurtidas())
     if goTo == 4:
       verPerfil()
     
@@ -141,6 +157,8 @@ def pesquisar(pesquisa, atividades):
 def verPerfil():
   global logado
   global usuarioAtual
+  global usuarios
+  global archive
   while True:
     if logado == False:
       print("[1] - Voce ja possui uma conta?")
@@ -154,22 +172,16 @@ def verPerfil():
             logado = True
             usuarioAtual = usuario
       else:
-        print("\tCRIAR CADASTRO")
-        nome = input("Digite seu nome")
-        email = input("Digite seu melhor email")
-        senha = input("Digite sua senha")
-        repeteSenha = input("Repita sua senha")
-        curtidas = []
-        roteiros = []
-        usuario = Usuario(nome, email, senha, repeteSenha, curtidas,roteiros)
-        usuarioAtual = usuario
+        usuarioAtual = Usuario.criaUsusario()
         logado = True
-        usuarios.append(usuario)
+        usuarios.append(usuarioAtual)
+        saveData(archive)
+        archive = loadData()
+
     if logado == True:
       print(usuarioAtual.nome)
       print(usuarioAtual.email)
       print(usuarioAtual.senha)
-      print(usuarioAtual.curtidas)
       print("[2] Deslogar")
       print("[1] editar perfil")
       print("[0] voltar")
@@ -180,11 +192,9 @@ def verPerfil():
         novoNome = input("digite seu Nome: ")
         novoEmail = input("Digite seu novo email: ")
         novaSenha = input("digite sua novaSenha: ")
-        repeteNovaSenha = input("Repita sua nova senha: ")
         usuarioAtual.nome = novoNome
         usuarioAtual.email = novoEmail
         usuarioAtual.senha = novaSenha
-        usuarioAtual.repeteSenha = repeteNovaSenha
       if goTo == 2:
         usuarioAtual = None
         logado = False
@@ -226,3 +236,99 @@ def bubbleSort(array):
     if not swapped:
       break	
   return array
+
+
+
+# nichos = {1:"Gastronômico", 2:"Cultural", 3:"Natureza", 4:"Família", 5:"Romântico"}
+
+# respostaPerguntas = []
+
+# resposta1 = 0
+
+# def perguntaGastronomica():
+#     print("Você prefere uma experiência: ")
+#     print("1 - Intimista, como um Bistrô")
+#     print("Animada, como um bar")
+#     print("Algo rápido, como Fast Food.")
+#     print("Um ambiente familiar, como um restaurante")
+#     resposta1 = int(input(""))
+#     return resposta1
+
+# def perguntaCultural():
+#     print("Em relação à cultura, você prefere uma experiência: ")
+#     print("Mais artesanal, como uma feira")
+#     print("Mais performático, como um concerto ou show")
+#     print("Lugares que contam um pouco da história da região alagoense, como Museus e centros históricos")
+#     resposta2 = int(input(""))
+#     return resposta2
+    
+# def perguntaNatureza():
+#     print("Em relação ao contato com a natureza, você prefere uma experiência: ")
+#     print("Desbravadora como uma trilha")
+#     print("Relaxante, como uma praia")
+#     print("Que permita observar a fauna maceioense e brasileira, como um zoológico")
+#     resposta3 = int(input(""))
+#     return resposta3
+
+# def perguntaFamilia():
+#     print("Em relação à viagem com a família, você prefere uma experiência: ")
+#     print("Algo relaxante, como passar o dia na praia.")
+#     print("Algo divertido, como ir a um parque aquático.")
+#     print("Algo aventureiro, como ir em uma trilha com cachoeira.")
+#     resposta4 = int(input(""))
+#     return resposta4
+
+
+# def perguntaRomantica():
+#     print("Em relação ao romance, você prefere uma experiência: ")
+#     print("Algo mais intimista, como um jantar à luz de velas.")  
+#     print("Algo mais aventureiro, como um passeio de caiaque à dois.")
+#     resposta5 = int(input(""))
+#     return resposta5
+    
+    
+# selecionados = {1 : perguntaGastronomica(), 2: perguntaCultural(), 3: perguntaNatureza(), 4: perguntaFamilia(), 5: perguntaRomantica()}
+    
+# lista_nichos = []
+
+# def iniciarQuiz():
+    
+#     print("selecione quias nichos voce gosta: ")
+#     print("0 confirmar")
+#     for nicho in nichos:
+#         print(f"{nicho} {nichos[nicho]}")
+#     while True:
+#         nicho_selecionado = int(input())
+#         if nicho_selecionado != 0:
+#             lista_nichos.append(nicho_selecionado)
+#         else:
+#             break
+#     print(lista_nichos)
+    
+#     for nicho_selecionado in lista_nichos:
+#         selecionados[nicho_selecionado]
+    
+
+
+
+# def quiz(nichos,selecionados):
+#     nichoEscolhido = 0
+#     print("Escolha os nichos pelos quais você se interessa: ")
+#     for i in range(len(nichos)):
+#         print(f"[{i+1}] - {nichos[i]}")
+#     nichoEscolhido = int(input())
+#     selecionados.append(nichoEscolhido)
+#     while nichoEscolhido != 0:
+#         print("Escolha outro nicho de seu interesse: ")
+#         print("Caso não queira selecionar mais nenhum, digite 0.")
+#         for i in range(len(nichos)):
+#             print(f"[{i+1}] - {nichos[i]}")
+#         nichoEscolhido = int(input())
+#         selecionados.append(nichoEscolhido)
+#         if nichoEscolhido == 0:
+#             break
+#     nichoEscolhido = int(input())
+#     selecionados.append(nichoEscolhido)
+
+
+    
