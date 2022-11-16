@@ -31,7 +31,6 @@ class Usuario:
         self.curtidas.append(atividade)
 
     def adicionarAtividadeRoteiro(self, atividade):
-      global archive
       while True:
         cont = 1
         print("Escolha o roteiro que você quer?")
