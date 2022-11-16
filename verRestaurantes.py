@@ -9,11 +9,6 @@ usuarioAtual = None
 # u3= Usuario('teste2',"teste2","teste2")
 # usuarios = [u1,u2,u3]
 
-usuarios = archive["usuarios"]
-passeios = archive["passeios"]
-praias = archive["praias"]
-restaurantes = archive["restaurantes"]
-atividades = archive["atividades"]
 
 def verAtividades(atividades, todasAtividades, filtros):
   while True:
@@ -76,6 +71,8 @@ def visualizarAtividade(visualizar, todasAtividades):
       if not usuarioAtual:
         verPerfil()
       else:
+        saveData(archive)
+        archive = loadData()
         avaliacao = input(f"Digite aqui sua avaliação para {visualizar.nome}.\n")
         while avaliacao == "":
           print("Digite uma avaliação.")
@@ -92,6 +89,8 @@ def visualizarAtividade(visualizar, todasAtividades):
       if not usuarioAtual:
         verPerfil()
       else:
+        saveData(archive)
+        archive = loadData()
         usuarioAtual.adicionarAtividadeRoteiro(visualizar)
         saveData(archive)
         archive = loadData()
@@ -126,8 +125,14 @@ def navBar():
         print(usuarioAtual.verRoteiros())
     if goTo == 3:
       if not usuarioAtual:
+        saveData(archive)
+        archive = loadData()
         verPerfil()
+        saveData(archive)
+        archive = loadData()
       else:
+        saveData(archive)
+        archive = loadData()
         print(usuarioAtual.verCurtidas())
     if goTo == 4:
       verPerfil()
@@ -329,6 +334,3 @@ def bubbleSort(array):
 #             break
 #     nichoEscolhido = int(input())
 #     selecionados.append(nichoEscolhido)
-
-
-    

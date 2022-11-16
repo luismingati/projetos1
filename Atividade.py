@@ -1,3 +1,4 @@
+
 class Atividade:
     def __init__(self, imagem,  nome, nota, descricao, duracaoAtividade, tags, servicos, localizacao, comentario, categoria):
         self.imagem = imagem
@@ -19,7 +20,7 @@ class Atividade:
 
     def verComentarios(self):
         if not self.comentario:
-            print("Esta publicacão ainda não tem avaliações")
+            print("Esta publicacão ainda não tem avaliações\n")
         else:
             print("\n","-"*30,"\n")
             for comentarioUsuario in self.comentario:
