@@ -10,7 +10,6 @@ class Usuario:
         self.roteiros = []  
 
     def fazComentario(self, atividade: object, texto: str, nota: int, imagem: str):
-        global archive
         comentarioAtual = Comentario(self, atividade, texto, nota, imagem)
         listaComentarios = []
         for comentarioAtividade in atividade.comentario:
