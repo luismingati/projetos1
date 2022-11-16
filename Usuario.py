@@ -25,15 +25,10 @@ class Usuario:
                 atividade.nota.append(nota)
 
     def curtir(self, atividade):
-      global archive
-      saveData(archive)
-      archive = loadData()
       if(atividade in self.curtidas):
         print("Atividade já foi adicionada")
       else:
         self.curtidas.append(atividade)
-        saveData(archive)
-        archive = loadData()
 
     def adicionarAtividadeRoteiro(self, atividade):
       global archive
