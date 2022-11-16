@@ -17,16 +17,12 @@ class Usuario:
         if not atividade.comentario:
             atividade.comentario.append(comentarioAtual)
             atividade.nota.append(nota)
-            saveData(archive)
-            archive = loadData()
         else:
             if self.email in listaComentarios:
                 print("voce ja fez um comentario nessa atividade!")
             else:
                 atividade.comentario.append(comentarioAtual)
                 atividade.nota.append(nota)
-                saveData(archive)
-                archive = loadData()
 
     def curtir(self, atividade):
       global archive
