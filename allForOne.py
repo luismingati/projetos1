@@ -423,9 +423,6 @@ def main():
             pass
         if select == 10:
             navBar()
-        if select == 11:
-          saveData(archive)
-          archive = loadData()
 
 
 archive =  loadData()

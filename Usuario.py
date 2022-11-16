@@ -9,6 +9,26 @@ class Usuario:
         self.curtidas = []
         self.roteiros = []  
 
+    def fazComentario(self, atividade: object, texto: str, nota: int, imagem: str):
+        global archive
+        comentarioAtual = Comentario(self, atividade, texto, nota, imagem)
+        listaComentarios = []
+        for comentarioAtividade in atividade.comentario:
+            listaComentarios.append(comentarioAtividade.usuario_c.email)
+        if not atividade.comentario:
+            atividade.comentario.append(comentarioAtual)
+            atividade.nota.append(nota)
+            saveData(archive)
+            archive = loadData()
+        else:
+            if self.email in listaComentarios:
+                print("voce ja fez um comentario nessa atividade!")
+            else:
+                atividade.comentario.append(comentarioAtual)
+                atividade.nota.append(nota)
+                saveData(archive)
+                archive = loadData()
+
     def curtir(self, atividade):
       global archive
       saveData(archive)
@@ -19,7 +39,24 @@ class Usuario:
         self.curtidas.append(atividade)
         saveData(archive)
         archive = loadData()
-        
+
+    def adicionarAtividadeRoteiro(self, atividade):
+      global archive
+      while True:
+        cont = 1
+        print("Escolha o roteiro que você quer?")
+        print( "0 - criar roteiro")
+        for roteiro in self.roteiros:
+          print(f"{cont} - Roteiro {cont}")
+          cont += 1
+        roteiroSelecionado = int(input())
+        if roteiroSelecionado == 0:
+          self.roteiros.append([])
+        else:
+          self.roteiros[roteiroSelecionado-1].append(atividade)
+          print(f"== atividade adicionada ao roteiro {roteiroSelecionado} ==\n")
+          break
+
     def verCurtidas(self):
       if not self.curtidas:
         print("Você ainda não curtiu nenhuma atividade.")
@@ -58,49 +95,7 @@ class Usuario:
           saveData(archive)
           archive = loadData()
           break
-        
-
-    def adicionarAtividadeRoteiro(self, atividade):
-      global archive
-      while True:
-        cont = 1
-        print("Escolha o roteiro que você quer?")
-        print( "0 - criar roteiro")
-        for roteiro in self.roteiros:
-          print(f"{cont} - Roteiro {cont}")
-          cont += 1
-        roteiroSelecionado = int(input())
-        if roteiroSelecionado == 0:
-          self.roteiros.append([])
-          saveData(archive)
-          archive = loadData()
-        else:
-          self.roteiros[roteiroSelecionado-1].append(atividade)
-          print(f"== atividade adicionada ao roteiro {roteiroSelecionado} ==\n")
-          saveData(archive)
-          archive = loadData()
-          break
-        
-
-    def fazComentario(self, atividade: object, texto: str, nota: int, imagem: str):
-        global archive
-        comentarioAtual = Comentario(self, atividade, texto, nota, imagem)
-        listaComentarios = []
-        for comentarioAtividade in atividade.comentario:
-            listaComentarios.append(comentarioAtividade.usuario_c.email)
-        if not atividade.comentario:
-            atividade.comentario.append(comentarioAtual)
-            atividade.nota.append(nota)
-            saveData(archive)
-            archive = loadData()
-        else:
-            if self.email in listaComentarios:
-                print("voce ja fez um comentario nessa atividade!")
-            else:
-                atividade.comentario.append(comentarioAtual)
-                atividade.nota.append(nota)
-                saveData(archive)
-                archive = loadData()
+      
 
 class Comentario:
   def __init__(self, usuario_c, atividade_c, texto, nota, imagem):

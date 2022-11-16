@@ -1,7 +1,7 @@
 import pickle
 
 def saveData(obj):
-  with open("usuarioTeste.pickle", 'wb') as arquivo:
+  with open("usuarioTeste.pickle", 'ab') as arquivo:
       pickle.dump(obj, arquivo)
       arquivo.close()
     
