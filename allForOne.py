@@ -13,14 +13,23 @@ def loadData():
     return teste
   
   
-
 logado = False
 usuarioAtual = None
 global archive
-
+ 
+  
+def atualizaEndereco(objSelf, listaArchive):
+  global archive
+  for obj in listaArchive:
+      if obj.idd == objSelf.idd:
+        indexDecoy = listaArchive.index(obj)       
+        listaArchive[indexDecoy] = objSelf
+        saveData(archive)
+        archive = loadData()
 
 class Usuario:
-    def __init__(self, nome, email, senha):
+    def __init__(self, idd, nome, email, senha):
+        self.idd = idd
         self.nome = nome
         self.email = email
         self.senha = senha
@@ -29,27 +38,14 @@ class Usuario:
 
     def curtir(self, atividade):
       global archive
-      if(atividade in self.curtidas):
-        print("Atividade já foi adicionada")
+      for atvCurtida in self.curtidas:
+        if(atividade.idd == atvCurtida.idd):
+          print("Atividade já foi adicionada")
+          break
       else:
         self.curtidas.append(atividade)
-        
-        
-        
-        for user in archive["usuarios"]:
-          if user.email == usuarioAtual.email:
-            indexDecoy = archive["usuarios"].index(user)
-            
-        archive["usuarios"][indexDecoy] = self
-        
-        
-        saveData(archive)
-        archive = loadData()
-        
-        print(self)
-        print(archive["usuarios"][0])
+        atualizaEndereco(self, archive["usuarios"])
 
-        
     def verCurtidas(self):
       if not self.curtidas:
         print("Você ainda não curtiu nenhuma atividade.")
@@ -59,9 +55,6 @@ class Usuario:
           print(curtida.nome)
 
     def verRoteiros(self):
-      print(self)
-      print(archive["usuarios"][0])
-      
       if not self.roteiros:
         print("Você nao criou roteiros ainda.")
       else:
@@ -77,10 +70,12 @@ class Usuario:
     @staticmethod
     def criaUsusario():
       global archive
+      idd = len(archive["usuarios"])+1
       nome = input("insira seu nome: ")
       email = input("insira seu email: ")
       senha = input("insira sua senha: ")
-      usuario = Usuario(nome, email, senha) 
+      
+      usuario = Usuario(idd, nome, email, senha) 
       return usuario
 
     def removeCurtida(self, atividade):
@@ -88,8 +83,8 @@ class Usuario:
       while True:
         if atividade in self.curtidas:
           self.curtidas.remove(atividade)
-          saveData(archive)
-          archive = loadData()
+          
+          atualizaEndereco(self, archive["usuarios"])
           break
         
 
@@ -105,13 +100,12 @@ class Usuario:
         roteiroSelecionado = int(input())
         if roteiroSelecionado == 0:
           self.roteiros.append([])
-          saveData(archive)
-          archive = loadData()
+          atualizaEndereco(self, archive["usuarios"])
         else:
           self.roteiros[roteiroSelecionado-1].append(atividade)
           print(f"== atividade adicionada ao roteiro {roteiroSelecionado} ==\n")
-          saveData(archive)
-          archive = loadData()
+          
+          atualizaEndereco(self, archive["usuarios"])
           break
         
 
@@ -124,17 +118,18 @@ class Usuario:
         if not atividade.comentario:
             atividade.comentario.append(comentarioAtual)
             atividade.nota.append(nota)
-            saveData(archive)
-            archive = loadData()
+            
+            atualizaEndereco(atividade, archive["atividades"])
+            atualizaEndereco(atividade, archive[atividade.categoria])
         else:
             if self.email in listaComentarios:
                 print("voce ja fez um comentario nessa atividade!")
             else:
                 atividade.comentario.append(comentarioAtual)
                 atividade.nota.append(nota)
-                saveData(archive)
-                archive = loadData()
-
+                
+                atualizaEndereco(atividade, archive["atividades"])
+                atualizaEndereco(atividade, archive[atividade.categoria])
 class Comentario:
   def __init__(self, usuario_c, atividade_c, texto, nota, imagem):
     self.usuario_c = usuario_c
@@ -144,7 +139,8 @@ class Comentario:
     self.imagem = imagem
 
 class Atividade:
-    def __init__(self, imagem,  nome, nota, descricao, duracaoAtividade, tags, servicos, localizacao, comentario, categoria):
+    def __init__(self, idd, imagem,  nome, nota, descricao, duracaoAtividade, tags, servicos, localizacao, comentario, categoria):
+        self.idd = idd
         self.imagem = imagem
         self.nome = nome
         self.nota = nota
@@ -279,12 +275,12 @@ def navBar():
       if not usuarioAtual:
         verPerfil()
       else:
-        print(usuarioAtual.verRoteiros())
+        usuarioAtual.verRoteiros()
     if goTo == 3:
       if not usuarioAtual:
         verPerfil()
       else:
-        print(usuarioAtual.verCurtidas())
+        usuarioAtual.verCurtidas()
     if goTo == 4:
       verPerfil()
     
@@ -330,6 +326,7 @@ def verPerfil():
         usuarioAtual = Usuario.criaUsusario()
         logado = True
         archive["usuarios"].append(usuarioAtual)
+        
         saveData(archive)
         archive = loadData()
         
@@ -351,6 +348,8 @@ def verPerfil():
         usuarioAtual.nome = novoNome
         usuarioAtual.email = novoEmail
         usuarioAtual.senha = novaSenha
+        
+        atualizaEndereco(usuarioAtual, archive["usuarios"])
       if goTo == 2:
         usuarioAtual = None
         logado = False
@@ -467,9 +466,9 @@ def main():
 
 
 '''
-passeioMaragogi = Atividade( "imagem passeio Maragogi",  "Passeio à maragogi", [5, 4, 3], "Saindo de maceió, ao norte, você visitará piscinas naturais", "9h", ["Bom para crianças","Natureza","Praia","Pet friendly", "Bom para idosos"], ["Catamarã", "Apoio no Restaurante pontal do maragogi"], "Pontal do Maragogi, Rodovia AL 101 Norte, Km 130 s/n Burgalhau - Barra Grande, Maragogi - AL, 57799-000, Brazil", [], "passeio")
-passeioMarape = Atividade( "imagem passeio Marapé",  "Passeio às Dunas de Marapé", [5, 4, 3], "Paraíso ecológico formado entre a Praia de Duas Barras e o Rio Jequiá. Além disso, pode também visualizar falésias.", "7h", ["Natureza","Aventura"], ["passeio de buggy", "Barraquinha","Day-use", "Circuito Pau-de-Arara", "Trilha dos Caetés"], "Povoado Barra de Jequia SN Duas Barras - Jequiá da Praia - Litoral Sul de Alagoas - 50 min de Maceió, Jequiá da Praia, Alagoas 57244-000 Brasil", [], "passeio")
-passeioHibiscus = Atividade( "imagem passeio Hibiscus",  "Passeio à ipipoca no Hibiscus beach club", [5, 4, 3], "Ida a praia de IPIOCA pra aproveitar um dia relaxante no beach club.", "3h30", ["Relaxante","Para casais","Bom para crianças","Natureza","Praia"], ["Passeios Náuticos", "Massagem relaxante","Área HIBISQUINHO para crianças","Passeio de lancha, Stand-up paddling e Caiaque"], "Rodovia AL 101 Norte, Bairro Ipioca Residencial Angra de Ipioca, Maceió, Alagoas 57039-705 Brasil", [], "passeio")
+passeioMaragogi = Atividade( 1, "imagem passeio Maragogi",  "Passeio à maragogi", [5, 4, 3], "Saindo de maceió, ao norte, você visitará piscinas naturais", "9h", ["Bom para crianças","Natureza","Praia","Pet friendly", "Bom para idosos"], ["Catamarã", "Apoio no Restaurante pontal do maragogi"], "Pontal do Maragogi, Rodovia AL 101 Norte, Km 130 s/n Burgalhau - Barra Grande, Maragogi - AL, 57799-000, Brazil", [], "passeios")
+passeioMarape = Atividade(2, "imagem passeio Marapé",  "Passeio às Dunas de Marapé", [5, 4, 3], "Paraíso ecológico formado entre a Praia de Duas Barras e o Rio Jequiá. Além disso, pode também visualizar falésias.", "7h", ["Natureza","Aventura"], ["passeio de buggy", "Barraquinha","Day-use", "Circuito Pau-de-Arara", "Trilha dos Caetés"], "Povoado Barra de Jequia SN Duas Barras - Jequiá da Praia - Litoral Sul de Alagoas - 50 min de Maceió, Jequiá da Praia, Alagoas 57244-000 Brasil", [], "passeios")
+passeioHibiscus = Atividade(3, "imagem passeio Hibiscus",  "Passeio à ipipoca no Hibiscus beach club", [5, 4, 3], "Ida a praia de IPIOCA pra aproveitar um dia relaxante no beach club.", "3h30", ["Relaxante","Para casais","Bom para crianças","Natureza","Praia"], ["Passeios Náuticos", "Massagem relaxante","Área HIBISQUINHO para crianças","Passeio de lancha, Stand-up paddling e Caiaque"], "Rodovia AL 101 Norte, Bairro Ipioca Residencial Angra de Ipioca, Maceió, Alagoas 57039-705 Brasil", [], "passeios")
 
 usuarios = []
 arrayUsuarios = usuarios
@@ -500,25 +499,26 @@ saveData(dictTudo)
 
 archive = loadData()
 
+print(archive["atividades"][1].comentario)
+print(archive["passeios"][2].comentario)
 
-'''archive["usuarios"].clear()
-saveData(archive)'''
-
+'''
+archive["usuarios"].clear()
+saveData(archive)
+'''
 '''usuarios = archive["usuarios"]
 passeios = archive["passeios"]
 praias = archive["praias"]
 restaurantes = archive["restaurantes"]
 atividades = archive["atividades"]'''
-
+print(archive["usuarios"])
 #print(archive["usuarios"][0].verCurtidas())
-'''
-archive["usuarios"].clear()
-saveData(archive)
-'''
+
 
 
 main()
 
 
-
+print(archive["atividades"][1].comentario)
+print(archive["passeios"][2].comentario)
 #print(archive["usuarios"][0].verCurtidas())
