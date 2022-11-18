@@ -192,4 +192,4 @@ def restaurantes():
         elif opcao == 0:
             start()
 
-
+start()

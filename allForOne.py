@@ -1,4 +1,5 @@
 import pickle
+import os
 
 def saveData(obj):
   with open("usuarioTeste.pickle", 'wb') as arquivo:
@@ -47,6 +48,7 @@ class Usuario:
         atualizaEndereco(self, archive["usuarios"])
 
     def verCurtidas(self):
+      os.system('cls')
       if not self.curtidas:
         print("Você ainda não curtiu nenhuma atividade.")
       else:
@@ -55,6 +57,7 @@ class Usuario:
           print(curtida.nome)
 
     def verRoteiros(self):
+      os.system('cls')
       if not self.roteiros:
         print("Você nao criou roteiros ainda.")
       else:
@@ -89,24 +92,30 @@ class Usuario:
         
 
     def adicionarAtividadeRoteiro(self, atividade):
+      os.system('cls')
       global archive
-      while True:
-        cont = 1
-        print("Escolha o roteiro que você quer?")
-        print( "0 - criar roteiro")
-        for roteiro in self.roteiros:
-          print(f"{cont} - Roteiro {cont}")
-          cont += 1
-        roteiroSelecionado = int(input())
-        if roteiroSelecionado == 0:
-          self.roteiros.append([])
-          atualizaEndereco(self, archive["usuarios"])
-        else:
-          self.roteiros[roteiroSelecionado-1].append(atividade)
-          print(f"== atividade adicionada ao roteiro {roteiroSelecionado} ==\n")
+      if type(atividade) == object:
+        while True:
+          cont = 1
+          print("Escolha o roteiro que você quer?")
+          print( "0 - criar roteiro")
+          for roteiro in self.roteiros:
+            print(f"{cont} - Roteiro {cont}")
+            cont += 1
+          roteiroSelecionado = int(input())
+          if roteiroSelecionado == 0:
+            self.roteiros.append([])
+            atualizaEndereco(self, archive["usuarios"])
+          else:
+            self.roteiros[roteiroSelecionado-1].append(atividade)
+            print(f"== atividade adicionada ao roteiro {roteiroSelecionado} ==\n")
+            
+            atualizaEndereco(self, archive["usuarios"])
+            break
+      else:
+        self.roteiros.append(atividade)
+        atualizaEndereco(self, archive["usuarios"])
           
-          atualizaEndereco(self, archive["usuarios"])
-          break
         
 
     def fazComentario(self, atividade: object, texto: str, nota: int, imagem: str):
@@ -170,6 +179,7 @@ class Atividade:
                 print("\n","-"*30,"\n")
 
 def verAtividades(atividades, todasAtividades, filtros):
+  os.system('cls')
   while True:
     print("------------------------\n")  
     for i in range(len(atividades)):
@@ -196,6 +206,7 @@ def verAtividades(atividades, todasAtividades, filtros):
 
 
 def visualizarAtividade(visualizar, todasAtividades):
+  os.system('cls')
   global usuarioAtual
   while True:
     print("------------------------\n")  
@@ -258,6 +269,7 @@ def visualizarAtividade(visualizar, todasAtividades):
       navBar()
     
 def navBar():
+  os.system('cls')
   global usuarioAtual
   while True:
     print("[0] - Voltar")
@@ -285,6 +297,7 @@ def navBar():
       verPerfil()
     
 def pesquisar(pesquisa, atividades):
+  os.system('cls')
   atividadesFiltradas = []
   if(type(pesquisa) == str):
     for atividade in atividades:
@@ -307,6 +320,7 @@ def pesquisar(pesquisa, atividades):
     return atividadesFiltradas
 
 def verPerfil():
+  os.system('cls')
   global logado
   global usuarioAtual
   global archive
@@ -393,7 +407,8 @@ def bubbleSort(array):
   return array
 
 
-def escolherPasseio(passeios): 
+def escolherPasseio(passeios):
+    os.system('cls')
     print("Escolha o passeio que você quer ver: ")
     print("[-1] - Filtrar passeios")
     print("[0] - para voltar para as opções")
@@ -414,7 +429,169 @@ def bemAvaliadas(atividades):
             atividadesFiltradas.append(atividade)
     return atividadesFiltradas
 
+
+def perguntaGastronomica():
+    print("Você prefere uma experiência: ")
+    print("1 - Intimista, como um Bistrô")
+    print("Animada, como um bar")
+    print("Algo rápido, como Fast Food.")
+    print("Um ambiente familiar, como um restaurante")
+    int(input(""))
+    
+
+def perguntaCultural():
+    print("Em relação à cultura, você prefere uma experiência: ")
+    print("Mais artesanal, como uma feira")
+    print("Mais performático, como um concerto ou show")
+    print("Lugares que contam um pouco da história da região alagoense, como Museus e centros históricos")
+    int(input(""))
+     
+    
+def perguntaNatureza():
+    print("Em relação ao contato com a natureza, você prefere uma experiência: ")
+    print("Desbravadora como uma trilha")
+    print("Relaxante, como uma praia")
+    print("Que permita observar a fauna maceioense e brasileira, como um zoológico")
+    int(input(""))
+    
+
+def perguntaFamilia():
+    print("Em relação à viagem com a família, você prefere uma experiência: ")
+    print("Algo relaxante, como passar o dia na praia.")
+    print("Algo divertido, como ir a um parque aquático.")
+    print("Algo aventureiro, como ir em uma trilha com cachoeira.")
+    int(input(""))
+    
+
+
+def perguntaRomantica():
+    print("Em relação ao romance, você prefere uma experiência: ")
+    print("Algo mais intimista, como um jantar à luz de velas.")  
+    print("Algo mais aventureiro, como um passeio de caiaque à dois.")
+    int(input(""))
+     
+
+
+
+def retornarAtividadesQuiz(tag, todasAtividades):
+  while True:
+    listaAtividades = []
+    for atv in todasAtividades:
+      if tag in atv.tags:
+        listaAtividades.append(atv)
+    return listaAtividades
+        
+      
+  
+def menuSeleciona(atividades):
+  while True:
+    print(f"Digite [0] para voltar")
+    print("------------------------\n")   
+    for i in range(len(atividades)):
+      print(f"Digite [{i+1}] para adicionar")
+      print(atividades[i].imagem)
+      print()
+      print(f"{atividades[i].nome} - {atividades[i].calculaNota()}")
+      print()
+      print(f"Categoria: {atividades[i].categoria}")
+      print(f"Tags: {atividades[i].tags}")
+      print("\n------------------------\n")
+    atividadeSel = int(input())
+    if atividadeSel > 0:
+      return atividades[atividadeSel-1]
+    elif atividadeSel == 0:
+      break
+
+def menuSelecionaRoteiro(roteiros):
+  global usuarioAtual
+  cont = 1
+  while True:
+    print(f"Digite [0] para voltar")
+    print("------------------------\n")   
+    for roteiro in roteiros:
+      print(f"Digite [{cont}] para adicionar este roteiro aos meus roteiros.")
+      for atividade in roteiro:
+        print(atividade.imagem)
+        print()
+        print(f"{atividade.nome} - {atividade.calculaNota()}")
+        print()
+        print(f"Categoria: {atividade.categoria}")
+        print("---")
+      print("\n------------------------\n")
+      cont+=1
+    selecionaRoteiro = int(input())
+    if selecionaRoteiro > 0:
+      if not usuarioAtual:
+        verPerfil()
+
+      usuarioAtual.adicionarAtividadeRoteiro(roteiros[selecionaRoteiro-1])
+      print("Este roteiro foi adicionado à aba de Meus Roteiros")
+      break
+    elif selecionaRoteiro == 0:
+      break
+
+
+def quiz():
+    global archive
+    global usuarioAtual
+    listaResposta = []
+    while True:
+      while True:
+        resposta = int(input("Selecione as experiências que você quer na sua viagem? \n" +
+              "1  - Gastronômico \n" +
+              "2  - Natureza \n" +
+              "3  - Famila \n" +
+              "4  - Romântico \n" +
+              "5  - Cultural \n" +
+              "0 - Confirmar \n"))
+        
+        if resposta != 0:
+          if resposta not in listaResposta:
+            listaResposta.append(resposta)
+          else:
+            print("Categoria ja selecionada!")
+        else: 
+          break
+      
+      roteiroQuiz = []
+      for opcao in listaResposta:
+        if opcao == 1:
+            perguntaGastronomica()
+            roteiroQuiz.append(menuSeleciona(retornarAtividadesQuiz("Restaurantes", archive["atividades"])))
+        elif opcao == 2:
+            perguntaNatureza()
+            roteiroQuiz.append(menuSeleciona(retornarAtividadesQuiz("Natureza", archive["atividades"])))
+        elif opcao == 3:
+            perguntaFamilia()
+            roteiroQuiz.append(menuSeleciona(retornarAtividadesQuiz("Bom para crianças", archive["atividades"])))
+        elif opcao == 4:
+            perguntaCultural()
+            roteiroQuiz.append(menuSeleciona(retornarAtividadesQuiz("Cultural", archive["atividades"])))
+        elif opcao == 5:
+            perguntaRomantica()
+            roteiroQuiz.append(menuSeleciona(retornarAtividadesQuiz("Para casais", archive["atividades"])))
+        
+        
+      print("Roteiro personalizado:")
+      for atvRoteiro in roteiroQuiz:
+        print(atvRoteiro.nome)
+      print()
+        
+      selecao = int(input("adicionar roteiro? \n[1] - sim \n[2] - não\n"))
+      if selecao == 1:
+        if not usuarioAtual:
+          verPerfil()
+       
+        usuarioAtual.adicionarAtividadeRoteiro(roteiroQuiz)
+        print("roteiro adicionado aos meus roteiros")
+        break
+      
+      else:
+        break
+      
+
 def main():
+    os.system('cls')
     global logado
     global usuarioAtual
     global archive
@@ -422,13 +599,11 @@ def main():
         print("[0] - SAIR")
         print("[1] - PESQUISAR")
         print("[2] - QUIZ")
-        print("[3] - CRIE")
         print("[4] - ROTEIROS PRONTOS")
         print("[5] - PASSEIOS")
         print("[6] - RESTAURANTES")
         print("[7] - PRAIAS")
         print("[8] - ATIVIDADES BEM AVALIADAS")
-        print("[9] - ATRAÇÕES EM ALTA")
         print("[10] - ABRIR NAVBAR")
         select = int(input())
         if select == 0:
@@ -437,12 +612,9 @@ def main():
             pesquisa = input()
             verAtividades(pesquisar(pesquisa, archive["atividades"]), archive["atividades"], [''])
         if select == 2:
-            # iniciarQuiz()
-            pass
-        if select == 3:
-            pass
+            quiz()
         if select == 4:
-            pass
+            menuSelecionaRoteiro(archive["roteiros"])
         if select == 5:
             verAtividades(archive["passeios"], archive["atividades"], todasTags(archive["passeios"]))
         if select == 6:
@@ -451,8 +623,6 @@ def main():
             verAtividades(archive["praias"], archive["atividades"], todasTags(archive["praias"]))
         if select == 8:
             verAtividades(bemAvaliadas(archive["atividades"]), archive["atividades"], todasTags(archive["atividades"]))
-        if select == 9:
-            pass
         if select == 10:
             navBar()
         if select == 11:
@@ -463,44 +633,38 @@ def main():
 
 
 
-
-
-'''
-passeioMaragogi = Atividade( 1, "imagem passeio Maragogi",  "Passeio à maragogi", [5, 4, 3], "Saindo de maceió, ao norte, você visitará piscinas naturais", "9h", ["Bom para crianças","Natureza","Praia","Pet friendly", "Bom para idosos"], ["Catamarã", "Apoio no Restaurante pontal do maragogi"], "Pontal do Maragogi, Rodovia AL 101 Norte, Km 130 s/n Burgalhau - Barra Grande, Maragogi - AL, 57799-000, Brazil", [], "passeios")
-passeioMarape = Atividade(2, "imagem passeio Marapé",  "Passeio às Dunas de Marapé", [5, 4, 3], "Paraíso ecológico formado entre a Praia de Duas Barras e o Rio Jequiá. Além disso, pode também visualizar falésias.", "7h", ["Natureza","Aventura"], ["passeio de buggy", "Barraquinha","Day-use", "Circuito Pau-de-Arara", "Trilha dos Caetés"], "Povoado Barra de Jequia SN Duas Barras - Jequiá da Praia - Litoral Sul de Alagoas - 50 min de Maceió, Jequiá da Praia, Alagoas 57244-000 Brasil", [], "passeios")
-passeioHibiscus = Atividade(3, "imagem passeio Hibiscus",  "Passeio à ipipoca no Hibiscus beach club", [5, 4, 3], "Ida a praia de IPIOCA pra aproveitar um dia relaxante no beach club.", "3h30", ["Relaxante","Para casais","Bom para crianças","Natureza","Praia"], ["Passeios Náuticos", "Massagem relaxante","Área HIBISQUINHO para crianças","Passeio de lancha, Stand-up paddling e Caiaque"], "Rodovia AL 101 Norte, Bairro Ipioca Residencial Angra de Ipioca, Maceió, Alagoas 57039-705 Brasil", [], "passeios")
-
-usuarios = []
-arrayUsuarios = usuarios
-arrayAtividades = [passeioMaragogi, passeioHibiscus, passeioMarape]
-arrayPasseios = [passeioMaragogi, passeioMarape, passeioHibiscus]
-arrayPraias = [passeioMarape, passeioHibiscus]
-arrayRestaurantes = [passeioMaragogi, passeioMaragogi]
-
-
-listTudo = [usuarios, arrayAtividades, arrayPasseios, arrayPraias, arrayRestaurantes]
-
-
-dictTudo = {
-    "usuarios" : arrayUsuarios, 
-    "atividades" : arrayAtividades,
-    "passeios" : arrayPasseios,
-    "praias" : arrayPraias,
-    "restaurantes" : arrayRestaurantes
-}
-saveData(dictTudo)
-'''
-
-
-
-
-
+      
+      
+  
+# passeioMaragogi = Atividade( 1, "imagem passeio Maragogi",  "Passeio à maragogi", [5, 4, 3], "Saindo de maceió, ao norte, você visitará piscinas naturais", "9h", ["Bom para crianças","Natureza","Praia","Pet friendly", "Bom para idosos"], ["Catamarã", "Apoio no Restaurante pontal do maragogi"], "Pontal do Maragogi, Rodovia AL 101 Norte, Km 130 s/n Burgalhau - Barra Grande, Maragogi - AL, 57799-000, Brazil", [], "passeios")
+# passeioMarape = Atividade(2, "imagem passeio Marapé",  "Passeio às Dunas de Marapé", [5, 4, 3], "Paraíso ecológico formado entre a Praia de Duas Barras e o Rio Jequiá. Além disso, pode também visualizar falésias.", "7h", ["Natureza","Aventura"], ["passeio de buggy", "Barraquinha","Day-use", "Circuito Pau-de-Arara", "Trilha dos Caetés"], "Povoado Barra de Jequia SN Duas Barras - Jequiá da Praia - Litoral Sul de Alagoas - 50 min de Maceió, Jequiá da Praia, Alagoas 57244-000 Brasil", [], "passeios")
+# passeioHibiscus = Atividade(3, "imagem passeio Hibiscus",  "Passeio à ipipoca no Hibiscus beach club", [5, 4, 3], "Ida a praia de IPIOCA pra aproveitar um dia relaxante no beach club.", "3h30", ["Relaxante","Para casais","Bom para crianças","Natureza","Praia"], ["Passeios Náuticos", "Massagem relaxante","Área HIBISQUINHO para crianças","Passeio de lancha, Stand-up paddling e Caiaque"], "Rodovia AL 101 Norte, Bairro Ipioca Residencial Angra de Ipioca, Maceió, Alagoas 57039-705 Brasil", [], "passeios")
+# resturanteJanga = Atividade(4, "imagem peixe frito", "Resturante Janga Praia", [4,4,5], " Restaurante em Maceió de comida Brasileira e de Frutos do mar, que tem opções vegetarianas", "1h", ["Restaurantes", "Bom para criança", "Para casais", "Bom para idoso", "Relaxante"], [],"Avenida Silvio Carlos Viana 1731 Ponta Verde, Maceió, Alagoas 57035-160 Brasil",[], "restaurantes")
+# resturanteMaria = Atividade(5, "imagem prato italiano e taça de vinho", "Resturante Maria Antonieta", [5,4,2], " Restaurante em Maceió de comida Italiana, Frutos do mar e Grelhados", "1h30", ["Restaurantes", "Para casais", "Bom para idoso", "Cultural"], [], "Avenida Doutor Antônio Gomes de Barros 150 Jatiuca, Maceió, Alagoas 57036-000 Brasil",[], "restaurantes")
+# resturanteWanchako = Atividade(6, "imagem de ceviche", "Resturante Wanchako", [4,4,4], " Restaurante em Maceió de comida Peruana, Latina e de Frutos do mar", "1h30", ["Restaurantes", "Para casais", "Bom para idoso", "Cultural"], []," Rua São Francisco de Assis, 93 Jatiúca, Maceió, Alagoas 57045-690 Brasil",[], "restaurantes")
+# praiaDeIpioca = Atividade( 7, "imagem praia de Ipioca",  "Praia de Ipioca", [5, 5, 5], "Praia ao sul de Maceió, meio deserta e de águas calmas", "3h", ["Bom para crianças","Natureza","Praia","Pet friendly", "Só para casais"], ["Passeio de bike", "Passeio de jangada"], "AL-101 rua Antônio Sabino de Sá 251, Maceió, Alagoas 57039-705 Brasil",[], "praias")
+# praiaDoGunga = Atividade( 8, "imagem do Mirante do Gunga",  "Praia do Gunga", [2, 4, 3], "Praia ao norte de Maceió, bem turistica e movimentada, com muitos coqueirinhos", "5h", ["Bom para crianças","Natureza","Praia","Pet friendly", "Só para casais", "Bom para Idoso", "Aventura"], ["Passeio de Quadriciclo", "Passeio de jangada"], "Praia do Gunga, AL",[], "praias")
+# praiaDoFrances = Atividade( 9, "imagem praia do Francês",  "Praia do Francês", [4, 4, 3], "Praia ao norte de Maceió, bem turistica e relaxante", "4h", ["Bom para crianças","Natureza","Praia","Pet friendly", "Só para casais", "Bom para Idoso"], ["Aluguel de Stand up"], "Praia do Francês, Marechal Deodoro, Alagoas", [], "praias")
+# usuarios = []
+# arrayUsuarios = usuarios
+# arrayAtividades = [passeioMaragogi, passeioHibiscus, passeioMarape, resturanteJanga, resturanteMaria, resturanteWanchako, praiaDeIpioca, praiaDoFrances, praiaDoGunga]
+# arrayPasseios = [passeioMaragogi, passeioMarape, passeioHibiscus]
+# arrayPraias = [praiaDeIpioca, praiaDoFrances, praiaDoGunga]
+# arrayRestaurantes = [resturanteJanga, resturanteMaria, resturanteWanchako]
+# listTudo = [usuarios, arrayAtividades, arrayPasseios, arrayPraias, arrayRestaurantes]
+# arrayRoteiros = [[passeioMaragogi, praiaDeIpioca,resturanteJanga],[passeioMarape,praiaDoFrances,resturanteMaria],[passeioHibiscus,praiaDoGunga,resturanteWanchako]]
+# dictTudo = {
+#     "usuarios" : arrayUsuarios, 
+#     "atividades" : arrayAtividades,
+#     "passeios" : arrayPasseios,
+#     "praias" : arrayPraias,
+#     "restaurantes" : arrayRestaurantes,
+#     "roteiros":  arrayRoteiros
+# }
+# saveData(dictTudo)
 
 
 archive = loadData()
-
-print(archive["atividades"][1].comentario)
-print(archive["passeios"][2].comentario)
 
 '''
 archive["usuarios"].clear()
@@ -511,14 +675,8 @@ passeios = archive["passeios"]
 praias = archive["praias"]
 restaurantes = archive["restaurantes"]
 atividades = archive["atividades"]'''
-print(archive["usuarios"])
-#print(archive["usuarios"][0].verCurtidas())
-
-
 
 main()
 
 
-print(archive["atividades"][1].comentario)
-print(archive["passeios"][2].comentario)
-#print(archive["usuarios"][0].verCurtidas())
+
