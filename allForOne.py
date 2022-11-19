@@ -41,14 +41,14 @@ class Usuario:
       global archive
       for atvCurtida in self.curtidas:
         if(atividade.idd == atvCurtida.idd):
-          print("Atividade já foi adicionada")
+          print("Atividade foi adicionada!")
           break
       else:
         self.curtidas.append(atividade)
         atualizaEndereco(self, archive["usuarios"])
 
     def verCurtidas(self):
-      os.system('cls')
+      
       if not self.curtidas:
         print("Você ainda não curtiu nenhuma atividade.")
       else:
@@ -57,7 +57,6 @@ class Usuario:
           print(curtida.nome)
 
     def verRoteiros(self):
-      os.system('cls')
       if not self.roteiros:
         print("Você nao criou roteiros ainda.")
       else:
@@ -74,10 +73,10 @@ class Usuario:
     def criaUsusario():
       global archive
       idd = len(archive["usuarios"])+1
-      nome = input("insira seu nome: ")
-      email = input("insira seu email: ")
-      senha = input("insira sua senha: ")
-      
+      print("\n-- CRIE A SUA CONTA --\n")
+      nome = input("Insira seu nome: ")
+      email = input("Insira seu email: ")
+      senha = input("Insira sua senha: ")
       usuario = Usuario(idd, nome, email, senha) 
       return usuario
 
@@ -92,13 +91,12 @@ class Usuario:
         
 
     def adicionarAtividadeRoteiro(self, atividade):
-      os.system('cls')
       global archive
-      if type(atividade) == object:
+      if type(atividade) != list:
         while True:
           cont = 1
-          print("Escolha o roteiro que você quer?")
-          print( "0 - criar roteiro")
+          print("Escolha o roteiro que você quer.")
+          print("[0] - criar roteiro")
           for roteiro in self.roteiros:
             print(f"{cont} - Roteiro {cont}")
             cont += 1
@@ -127,7 +125,6 @@ class Usuario:
         if not atividade.comentario:
             atividade.comentario.append(comentarioAtual)
             atividade.nota.append(nota)
-            
             atualizaEndereco(atividade, archive["atividades"])
             atualizaEndereco(atividade, archive[atividade.categoria])
         else:
@@ -136,7 +133,6 @@ class Usuario:
             else:
                 atividade.comentario.append(comentarioAtual)
                 atividade.nota.append(nota)
-                
                 atualizaEndereco(atividade, archive["atividades"])
                 atualizaEndereco(atividade, archive[atividade.categoria])
 class Comentario:
@@ -169,7 +165,7 @@ class Atividade:
 
     def verComentarios(self):
         if not self.comentario:
-            print("Esta publicacão ainda não tem avaliações\n")
+            print("Esta publicacão ainda não tem avaliações.\n")
         else:
             print("\n","-"*30,"\n")
             for comentarioUsuario in self.comentario:
@@ -179,21 +175,24 @@ class Atividade:
                 print("\n","-"*30,"\n")
 
 def verAtividades(atividades, todasAtividades, filtros):
-  os.system('cls')
   while True:
     print("------------------------\n")  
     for i in range(len(atividades)):
-      print(f"Digite [{i+1}] para visualizar")
-      print(atividades[i].imagem)
-      print()
       print(f"{atividades[i].nome} - {atividades[i].calculaNota()}")
       print()
+      print(atividades[i].imagem)
       print(f"Categoria: {atividades[i].categoria}")
       print(f"Tags: {atividades[i].tags}")
+      print()
+      print(f"Digite [{i+1}] para ver informações mais detalhadas")
       print("\n------------------------\n")
+    print("----- MENU ---- ")
     print("[-1] Pesquisar")
     print("[-2] Aplicar Filtros")
-    toDo = int(input())
+    print("[-3] Abrir Navbar")
+    print("[00] Retornar para a Home")
+    toDo = int(input("Digite o número da atividade que deseja ver informações mais detalhadas: "))
+    print()
     if toDo > 0:
       visualizarAtividade(atividades[toDo-1], todasAtividades)
     elif toDo == 0: 
@@ -203,33 +202,31 @@ def verAtividades(atividades, todasAtividades, filtros):
       verAtividades(pesquisar(pesquisa, todasAtividades), todasAtividades, filtros)
     elif toDo == -2:
       verAtividades(filtrar(filtros, atividades), todasAtividades, filtros)
-
+    elif toDo == -3:
+      navBar()
 
 def visualizarAtividade(visualizar, todasAtividades):
-  os.system('cls')
+  
   global usuarioAtual
   while True:
-    print("------------------------\n")  
-    print(visualizar.imagem)
-    print(visualizar.nome)
-    print(visualizar.calculaNota())           
+    print("-----------------------------------------\n")  
+    print(f"{visualizar.nome} - {visualizar.calculaNota()}")  
+    print()        
     print(visualizar.localizacao)
+    print()
+    print(visualizar.imagem)
     print("Descrição: ", visualizar.descricao)
     for tag in visualizar.tags:    
         print(f"{tag}", end=" ")
-    #print("Valor médio \n ", valor.estimado)
-    #print("Percurso: \n", visualizar.mapa)
-    #pontos turisticos visitados
-    print(" ")
-    print("Avaliações: \n")
+    print("\n\n--------- AVALIAÇÕES ---------")
     visualizar.verComentarios()
-    print("[0] - Voltar")
+    print("---- MENU ----")
+    print("[ 0] - Voltar")
     print("[-1] - Pesquisar")
     print("[-2] - Fazer Comentário")
     print("[-3] - Adicionar ao Roteiro")
     print("[-4] - Curtir atividade")
-    print("[-5] - Abrir navbar")
-    print("\n------------------------")
+    print("[-5] - Abrir Navbar")
     toDo = int(input())
     if toDo == 0:
       break
@@ -256,9 +253,8 @@ def visualizarAtividade(visualizar, todasAtividades):
       if not usuarioAtual:
         verPerfil()
       else:
-        
+        print("\n\n\nFoi adicionado ao seu roteiro.\n")
         usuarioAtual.adicionarAtividadeRoteiro(visualizar)
-        
     if toDo == -4:
       if not usuarioAtual:
         verPerfil()
@@ -269,19 +265,20 @@ def visualizarAtividade(visualizar, todasAtividades):
       navBar()
     
 def navBar():
-  os.system('cls')
+  
   global usuarioAtual
   while True:
+    print("\n----- NAVBAR ----")
     print("[0] - Voltar")
     print("[1] - Home")
-    print("[2] - Meus Roteiros")
+    print("[2] - Aba de Meus Roteiros")
     print("[3] - Atividades Curtidas")
-    print("[4] - Meu Perfil")
+    print("[4] - Aba de Meu Perfil")
     goTo = int(input())
     if goTo == 0:
       break
     if goTo == 1:
-      # main()
+      #main()
       pass
     if goTo == 2:
       if not usuarioAtual:
@@ -297,7 +294,7 @@ def navBar():
       verPerfil()
     
 def pesquisar(pesquisa, atividades):
-  os.system('cls')
+  
   atividadesFiltradas = []
   if(type(pesquisa) == str):
     for atividade in atividades:
@@ -307,7 +304,7 @@ def pesquisar(pesquisa, atividades):
         if tag.lower() == pesquisa.lower():
           atividadesFiltradas.append(atividade)
     if len(atividadesFiltradas) == 0:
-      print("Nao encontramos nada relacionado")
+      print("Opa! Não encontramos nada relacionado.")
     return atividadesFiltradas
   else:
     for item in pesquisa:
@@ -316,19 +313,20 @@ def pesquisar(pesquisa, atividades):
           if tag.lower() == item.lower() and atividade not in atividadesFiltradas:
             atividadesFiltradas.append(atividade)
     if len(atividadesFiltradas) == 0:
-      print("Nao encontramos nada relacionado")
+      print("Opa! Não encontramos nada relacionado.")
     return atividadesFiltradas
 
 def verPerfil():
-  os.system('cls')
+  
   global logado
   global usuarioAtual
   global archive
   while True:
     if logado == False:
-      print("[1] - Voce ja possui uma conta?")
+      print( "\n----- MENU SIGN IN OU LOGIN -----")
+      print("[1] - Você já possui uma conta?")
       print("[2] - Quer criar a sua conta?")
-      conta = int(input())
+      conta = int(input("Digite: "))
       if conta == 1:
         login = input("Digite Seu email: ")
         senha = input("Digite sua senha: ")
@@ -343,15 +341,14 @@ def verPerfil():
         
         saveData(archive)
         archive = loadData()
-        
-
     if logado == True:
-      print(usuarioAtual.nome)
-      print(usuarioAtual.email)
-      print(usuarioAtual.senha)
-      print("[2] Deslogar")
-      print("[1] editar perfil")
-      print("[0] voltar")
+      # print(usuarioAtual.nome)
+      # print(usuarioAtual.email)
+      # print(usuarioAtual.senha)
+      print("\n ---- MENU ----\n")
+      print("[2] - Deslogar.")
+      print("[1] - Editar perfil.")
+      print("[0] - Voltar para onde estava.")
       goTo = int(input())
       if goTo == 0:
         break
@@ -408,10 +405,10 @@ def bubbleSort(array):
 
 
 def escolherPasseio(passeios):
-    os.system('cls')
-    print("Escolha o passeio que você quer ver: ")
+    
+    print("\nEscolha o passeio que você quer ver: ")
     print("[-1] - Filtrar passeios")
-    print("[0] - para voltar para as opções")
+    print("[ 0] - Para voltar para as opções de passeios")
     for i in range(len(passeios)):
         print(f"[{i+1}] - {passeios[i]}")
     valorEscolhido = int(input())
@@ -431,28 +428,29 @@ def bemAvaliadas(atividades):
 
 
 def perguntaGastronomica():
-    print("Você prefere uma experiência: ")
-    print("1 - Intimista, como um Bistrô")
-    print("Animada, como um bar")
-    print("Algo rápido, como Fast Food.")
-    print("Um ambiente familiar, como um restaurante")
-    int(input(""))
+    print("\nVocê prefere uma experiência: ")
+    print("[1] - Intimista, como um Bistrô.")
+    print("[2] - Animada, como um bar.")
+    print("[3] - Algo rápido, como Fast Food.")
+    print("[4] - Um ambiente familiar, como um restaurante.")
+    int(input("Digite: "))
     
 
 def perguntaCultural():
-    print("Em relação à cultura, você prefere uma experiência: ")
-    print("Mais artesanal, como uma feira")
-    print("Mais performático, como um concerto ou show")
-    print("Lugares que contam um pouco da história da região alagoense, como Museus e centros históricos")
-    int(input(""))
+    print("\nEm relação à cultura, você prefere uma experiência: ")
+    print("[1] - Mais artesanal, como uma feira.")
+    print("[2] - Mais performático, como um concerto ou show.")
+    print("[3] - Lugares que contam um pouco da história da região alagoense, como Museus e centros históricos.")
+    int(input("Digite: "))
+
      
     
 def perguntaNatureza():
-    print("Em relação ao contato com a natureza, você prefere uma experiência: ")
-    print("Desbravadora como uma trilha")
-    print("Relaxante, como uma praia")
-    print("Que permita observar a fauna maceioense e brasileira, como um zoológico")
-    int(input(""))
+    print("\nEm relação ao contato com a natureza, você prefere uma experiência: ")
+    print("[1] - Desbravadora como uma trilha.")
+    print("[2] - Relaxante, como uma praia.")
+    print("[3] - Que permita observar a fauna maceioense e brasileira, como um zoológico.")
+    int(input("Digite: "))
     
 
 def perguntaFamilia():
@@ -460,19 +458,16 @@ def perguntaFamilia():
     print("Algo relaxante, como passar o dia na praia.")
     print("Algo divertido, como ir a um parque aquático.")
     print("Algo aventureiro, como ir em uma trilha com cachoeira.")
-    int(input(""))
+    int(input("Digite: "))
     
 
 
 def perguntaRomantica():
-    print("Em relação ao romance, você prefere uma experiência: ")
-    print("Algo mais intimista, como um jantar à luz de velas.")  
-    print("Algo mais aventureiro, como um passeio de caiaque à dois.")
-    int(input(""))
+    print("\nEm relação ao romance, você prefere uma experiência: ")
+    print("[1] - Algo mais intimista, como um jantar à luz de velas.")  
+    print("[2] - Algo mais aventureiro, como um passeio de caiaque à dois.")
+    int(input("Digite:"))
      
-
-
-
 def retornarAtividadesQuiz(tag, todasAtividades):
   while True:
     listaAtividades = []
@@ -485,18 +480,20 @@ def retornarAtividadesQuiz(tag, todasAtividades):
   
 def menuSeleciona(atividades):
   while True:
-    print(f"Digite [0] para voltar")
-    print("------------------------\n")   
+    print("\n--- ATIVIDADES IDEAIS PARA VOCÊ ---")
+    print("-------------------------------------\n")
+    print("Selecione a atividade que deseja adicionar ao seu roteiro \n")  
+    print("-------------------------------\n")  
     for i in range(len(atividades)):
-      print(f"Digite [{i+1}] para adicionar")
-      print(atividades[i].imagem)
-      print()
       print(f"{atividades[i].nome} - {atividades[i].calculaNota()}")
       print()
+      print(atividades[i].imagem)
+      print(f"Tags: {atividades[i].tags}\n")
       print(f"Categoria: {atividades[i].categoria}")
-      print(f"Tags: {atividades[i].tags}")
+      print(f"\nDigite [{i+1}] para adicionar essa atividade ao seu roteiro!")
       print("\n------------------------\n")
-    atividadeSel = int(input())
+    print("[0] Para retornar para Home")
+    atividadeSel = int(input("Digite o número da atividade escolhida: "))
     if atividadeSel > 0:
       return atividades[atividadeSel-1]
     elif atividadeSel == 0:
@@ -506,20 +503,21 @@ def menuSelecionaRoteiro(roteiros):
   global usuarioAtual
   cont = 1
   while True:
-    print(f"Digite [0] para voltar")
-    print("------------------------\n")   
+    print("\n------  ROTEIROS PRONTOS -------")
+    print("----------------------------------\n")
+    print("Escolha um roteiro para sua viagem! \n")
+    print("--------------------------\n")   
     for roteiro in roteiros:
-      print(f"Digite [{cont}] para adicionar este roteiro aos meus roteiros.")
       for atividade in roteiro:
-        print(atividade.imagem)
-        print()
         print(f"{atividade.nome} - {atividade.calculaNota()}")
         print()
-        print(f"Categoria: {atividade.categoria}")
-        print("---")
-      print("\n------------------------\n")
+        print(atividade.imagem)
+        print(f"Categoria: {atividade.categoria}\n")
+      print(f"\nDigite [{cont}] para adicionar este roteiro a aba de meus roteiros.\n")
+      print("------------------------\n")
       cont+=1
-    selecionaRoteiro = int(input())
+    print("[0] Para retornar para Home")
+    selecionaRoteiro = int(input("Digite o número do roteiro selecionado: "))
     if selecionaRoteiro > 0:
       if not usuarioAtual:
         verPerfil()
@@ -537,14 +535,14 @@ def quiz():
     listaResposta = []
     while True:
       while True:
-        resposta = int(input("Selecione as experiências que você quer na sua viagem? \n" +
-              "1  - Gastronômico \n" +
-              "2  - Natureza \n" +
-              "3  - Famila \n" +
-              "4  - Romântico \n" +
-              "5  - Cultural \n" +
-              "0 - Confirmar \n"))
-        
+        resposta = int(input("\nSelecione as experiências que você quer na sua viagem: \n" +
+              "[1]  - Gastronômico \n" +
+              "[2]  - Natureza \n" +
+              "[3]  - Famila \n" +
+              "[4]  - Romântico \n" +
+              "[5]  - Cultural \n" +
+              "[0]  - Caso não deseje mais nenhuma outra opção, digite 0 para ir para a próxima pergunta.\n" +
+              "Digite: "))
         if resposta != 0:
           if resposta not in listaResposta:
             listaResposta.append(resposta)
@@ -565,10 +563,10 @@ def quiz():
             perguntaFamilia()
             roteiroQuiz.append(menuSeleciona(retornarAtividadesQuiz("Bom para crianças", archive["atividades"])))
         elif opcao == 4:
-            perguntaCultural()
+            perguntaRomantica()
             roteiroQuiz.append(menuSeleciona(retornarAtividadesQuiz("Cultural", archive["atividades"])))
         elif opcao == 5:
-            perguntaRomantica()
+            perguntaCultural()
             roteiroQuiz.append(menuSeleciona(retornarAtividadesQuiz("Para casais", archive["atividades"])))
         
         
@@ -591,11 +589,12 @@ def quiz():
       
 
 def main():
-    os.system('cls')
+    
     global logado
     global usuarioAtual
     global archive
     while True:
+        print("-- MENU INICIAL --")
         print("[0] - SAIR")
         print("[1] - PESQUISAR")
         print("[2] - QUIZ")
@@ -605,11 +604,11 @@ def main():
         print("[7] - PRAIAS")
         print("[8] - ATIVIDADES BEM AVALIADAS")
         print("[10] - ABRIR NAVBAR")
-        select = int(input())
+        select = int(input("Escolha sua opção: "))
         if select == 0:
             break
         if select == 1:
-            pesquisa = input()
+            pesquisa = input("Digite o que deseja pesquisar (Como tags ou o nome da atividade): ")
             verAtividades(pesquisar(pesquisa, archive["atividades"]), archive["atividades"], [''])
         if select == 2:
             quiz()
