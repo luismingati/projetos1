@@ -77,7 +77,7 @@ class Usuario:
       nome = input("Insira seu nome: ")
       email = input("Insira seu email: ")
       senha = input("Insira sua senha: ")
-      usuario = Usuario(idd, nome, email, senha) 
+      usuario = Usuario(idd, nome, email, senha)
       return usuario
 
     def removeCurtida(self, atividade):
@@ -253,8 +253,8 @@ def visualizarAtividade(visualizar, todasAtividades):
       if not usuarioAtual:
         verPerfil()
       else:
-        print("\n\n\nFoi adicionado ao seu roteiro.\n")
         usuarioAtual.adicionarAtividadeRoteiro(visualizar)
+        print("\n\n\nFoi adicionado ao seu roteiro.\n")
     if toDo == -4:
       if not usuarioAtual:
         verPerfil()
@@ -316,11 +316,11 @@ def pesquisar(pesquisa, atividades):
       print("Opa! Não encontramos nada relacionado.")
     return atividadesFiltradas
 
-def verPerfil():
-  
+def verPerfil(): 
   global logado
   global usuarioAtual
   global archive
+  archive["usuarios"]
   while True:
     if logado == False:
       print( "\n----- MENU SIGN IN OU LOGIN -----")
@@ -338,7 +338,6 @@ def verPerfil():
         usuarioAtual = Usuario.criaUsusario()
         logado = True
         archive["usuarios"].append(usuarioAtual)
-        
         saveData(archive)
         archive = loadData()
     if logado == True:
@@ -644,6 +643,7 @@ def main():
 # praiaDeIpioca = Atividade( 7, "imagem praia de Ipioca",  "Praia de Ipioca", [5, 5, 5], "Praia ao sul de Maceió, meio deserta e de águas calmas", "3h", ["Bom para crianças","Natureza","Praia","Pet friendly", "Só para casais"], ["Passeio de bike", "Passeio de jangada"], "AL-101 rua Antônio Sabino de Sá 251, Maceió, Alagoas 57039-705 Brasil",[], "praias")
 # praiaDoGunga = Atividade( 8, "imagem do Mirante do Gunga",  "Praia do Gunga", [2, 4, 3], "Praia ao norte de Maceió, bem turistica e movimentada, com muitos coqueirinhos", "5h", ["Bom para crianças","Natureza","Praia","Pet friendly", "Só para casais", "Bom para Idoso", "Aventura"], ["Passeio de Quadriciclo", "Passeio de jangada"], "Praia do Gunga, AL",[], "praias")
 # praiaDoFrances = Atividade( 9, "imagem praia do Francês",  "Praia do Francês", [4, 4, 3], "Praia ao norte de Maceió, bem turistica e relaxante", "4h", ["Bom para crianças","Natureza","Praia","Pet friendly", "Só para casais", "Bom para Idoso"], ["Aluguel de Stand up"], "Praia do Francês, Marechal Deodoro, Alagoas", [], "praias")
+
 # usuarios = []
 # arrayUsuarios = usuarios
 # arrayAtividades = [passeioMaragogi, passeioHibiscus, passeioMarape, resturanteJanga, resturanteMaria, resturanteWanchako, praiaDeIpioca, praiaDoFrances, praiaDoGunga]
