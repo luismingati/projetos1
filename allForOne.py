@@ -72,13 +72,19 @@ class Usuario:
     @staticmethod
     def criaUsusario():
       global archive
+      vef = True
       idd = len(archive["usuarios"])+1
       print("\n-- CRIE A SUA CONTA --\n")
       nome = input("Insira seu nome: ")
       email = input("Insira seu email: ")
       senha = input("Insira sua senha: ")
-      usuario = Usuario(idd, nome, email, senha)
-      return usuario
+      for usuario in archive["usuarios"]:
+          if usuario.email == email:
+              print("email já cadastrado!")
+              vef = False
+      if vef == True:    
+        usuario = Usuario(idd, nome, email, senha)
+        return usuario
 
     def removeCurtida(self, atividade):
       global archive
@@ -176,7 +182,7 @@ class Atividade:
 
 def verAtividades(atividades, todasAtividades, filtros):
   while True:
-    print("------------------------\n")  
+    print("------------------------\n")
     for i in range(len(atividades)):
       print(f"{atividades[i].nome} - {atividades[i].calculaNota()}")
       print()
@@ -190,7 +196,7 @@ def verAtividades(atividades, todasAtividades, filtros):
     print("[-1] Pesquisar")
     print("[-2] Aplicar Filtros")
     print("[-3] Abrir Navbar")
-    print("[00] Retornar para a Home")
+    print("[0] Retornar para a Home")
     toDo = int(input("Digite o número da atividade que deseja ver informações mais detalhadas: "))
     print()
     if toDo > 0:
@@ -335,7 +341,10 @@ def verPerfil():
             logado = True
             usuarioAtual = usuario
       else:
+
         usuarioAtual = Usuario.criaUsusario()
+        while usuarioAtual == None:
+            usuarioAtual = Usuario.criaUsusario()
         logado = True
         archive["usuarios"].append(usuarioAtual)
         saveData(archive)
@@ -593,6 +602,14 @@ def main():
     global usuarioAtual
     global archive
     while True:
+        print(" __      __                                     ")
+        print(" \ \    / /                                     ")
+        print("  \ \  / /__  _   _  __ _  __ _  ___ _   _ _ __ ")
+        print("   \ \/ / _ \| | | |/ _` |/ _` |/ _ \ | | | '__|")
+        print("    \  / (_) | |_| | (_| | (_| |  __/ |_| | |   ")
+        print("     \/ \___/ \__, |\__,_|\__, |\___|\__,_|_|   ")
+        print("               __/ |       __/ |                ")
+        print("              |___/       |___/                 ")
         print("-- MENU INICIAL --")
         print("[0] - SAIR")
         print("[1] - PESQUISAR")
@@ -608,7 +625,7 @@ def main():
             break
         if select == 1:
             pesquisa = input("Digite o que deseja pesquisar (Como tags ou o nome da atividade): ")
-            verAtividades(pesquisar(pesquisa, archive["atividades"]), archive["atividades"], [''])
+            verAtividades(pesquisar(pesquisa, archive["atividades"]), archive["atividades"], todasTags(archive["atividades"]))
         if select == 2:
             quiz()
         if select == 4:
@@ -627,12 +644,6 @@ def main():
           saveData(archive)
           archive = loadData()
 
-
-
-
-
-      
-      
   
 # passeioMaragogi = Atividade( 1, "imagem passeio Maragogi",  "Passeio à maragogi", [5, 4, 3], "Saindo de maceió, ao norte, você visitará piscinas naturais", "9h", ["Bom para crianças","Natureza","Praia","Pet friendly", "Bom para idosos"], ["Catamarã", "Apoio no Restaurante pontal do maragogi"], "Pontal do Maragogi, Rodovia AL 101 Norte, Km 130 s/n Burgalhau - Barra Grande, Maragogi - AL, 57799-000, Brazil", [], "passeios")
 # passeioMarape = Atividade(2, "imagem passeio Marapé",  "Passeio às Dunas de Marapé", [5, 4, 3], "Paraíso ecológico formado entre a Praia de Duas Barras e o Rio Jequiá. Além disso, pode também visualizar falésias.", "7h", ["Natureza","Aventura"], ["passeio de buggy", "Barraquinha","Day-use", "Circuito Pau-de-Arara", "Trilha dos Caetés"], "Povoado Barra de Jequia SN Duas Barras - Jequiá da Praia - Litoral Sul de Alagoas - 50 min de Maceió, Jequiá da Praia, Alagoas 57244-000 Brasil", [], "passeios")
@@ -676,6 +687,3 @@ restaurantes = archive["restaurantes"]
 atividades = archive["atividades"]'''
 
 main()
-
-
-
