@@ -1,4 +1,4 @@
-# **BEM VINDO AO OTIMIZANTA PRÉ ALPHA!**
+# **BEM VINDO AO VOYAGEUR PRÉ ALPHA!**
 
 ### O que é?
 
@@ -10,7 +10,7 @@ Têm a opção também de visualizar as atividades de acordo com sua categoria e
 
 #
 
-E por último, o mais importante: nosso quiz! Respoda perguntas para receber um roteiro 100% personalizado e só seu criado de acordo com suas preferências.
+E por último, o mais importante: nosso quiz! Respoda perguntas para receber um roteiro 100% personalizado e só seu, criado de acordo com suas preferências.
 
 ### Como usar?
 
@@ -18,4 +18,4 @@ Para executar o programa, execute-o em sua máquina!
 
 ##### em caso de bugs:
 
-Caso o banco de dados esteja com algum problema, recomendamos que voce descomente da linha 640 até a 666, rode o programa e as comente novamente. Isso vai fazer com que os usuários e comentários nas atividades resetem.
+Caso o banco de dados esteja com algum problema, recomendamos que voce descomente da linha 648 até a 674, rode o programa e as comente novamente. Isso vai fazer com que os usuários e comentários nas atividades resetem.
